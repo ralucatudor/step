@@ -92,3 +92,15 @@ li a:hover {
 .image-container img:hover {
   border: thick outset rgb(114, 119, 124);
 }
+
+/* Socials */
+.social-button {
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: bold;
+	border: 1px solid #495057;
+	border-radius: 20%;
+	background-color: rgb(238, 235, 229);
+	padding: 15px 5px 5px 5px;
+	color:black;
+}
