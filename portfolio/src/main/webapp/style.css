@@ -7,13 +7,13 @@ body {
   /* max-width: 650px; */
 	width: 650px;
 	margin: 0px auto;
-	height: 100%;
+	/* height: 100%;
 	top: 0;
-	/* bottom: 0; */
+	bottom: 0;
 	position: absolute;
 	left: 0; 
-  right: 0; 
-	padding: 20px 5%;
+  right: 0;  */
+	padding: 2.5% 5% 5% 5%;
 }
 
 #name {
@@ -47,26 +47,26 @@ section header h1 {
 }
 
 /* Navigation Bar */
-ul {
+.navbar-list {
   list-style-type: none;	/* remove the bullets */
   margin: 0;
   padding: 0;
   background-color: #495057;
 }
 
-li {
+.navbar-list li {
   display: inline;	/* Create a horizontal navbar */
-	border: thin solid white;
+  border: thin solid white;
 }
 
-li a {
+.navbar-list a {
 	color: #F8F9FA;
   text-align: center;
   padding: 0px 20px;
   text-decoration: none;
 }
 
-li a:hover {
+.navbar-list a:hover {
 	background-color: #212529;
 	color: #F8F9FA;
 }
