@@ -1,15 +1,39 @@
 function getProjects() {
     wrapper.innerHTML = `
-        <p>Here are two of my latest projects:</p>
-        <h2>Doodle Jump Game</h2>
-        <h3>[C++/SFML] Object Oriented Programming Project</h3>
-        <p>The project can be found <a href="https://github.com/ralucatudor/doodle-jump">here</a>.</p>
+        <section id="projects">
+            <h1>Projects</h1>
+            <p>Here are some of my latest projects:</p>
+            <section>
+                <header>
+                    <h1>
+                        Doodle Jump Game
+                    </h1>
+                    <span class="time-span">Apr. &ndash; May 2020</span>
+                    <div>[C++/SFML] Object Oriented Programming Project</div>
+                </header>
+                <p>
+                    The project can be found <a href="https://github.com/ralucatudor/doodle-jump">here</a>.
+                    Also, enjoy the demo: 
+                </p>
+                <p style="text-align: center;">
+                    <img src="images/doodle-jump-demo.gif" width=30%>
+                </p>
+            </section>
+            
+            <section>
+                <header>
+                    <h1>
+                        Zenodotus - Home library management
+                    </h1>
+                    <span class="time-span">May &ndash; June 2020</span>
+                    <div>Single-page web application</div>
+                </header>
+                <p>Built using HTML/CSS, JavaScript and Node.js</p>
+                <p>The project can be found <a href="https://github.com/ralucatudor/Zenodotus">here</a>.</p>
+            </section>
+        </section>
 
-        <h2>Zenodotus - Home library management</h2>
-        <h3>Single-page web application</h3>
-        <p>HTML/CSS, JavaScript and Node.js</p>
-        <p>The project can be found <a href="https://github.com/ralucatudor/Zenodotus">here</a>.</p>
-
+        <p>See more of my work here:</p>
         <section style="text-align:center;">
             <a class="social-button" href="https://github.com/ralucatudor">GitHub Account <i class="fa fa-github" aria-hidden="true" style="font-size:35px;"></i></a>
         </section>
