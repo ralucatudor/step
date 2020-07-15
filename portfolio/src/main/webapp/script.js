@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
+// Add Navigation Bar
+document.getElementById("navigation-bar").innerHTML =
+    `<ul>
+        <li><a href="javascript:getInfo()">About me</a></li>
+        <li><a href="javascript:getProjects()">Projects</a></li>
+        <li><a href="javascript:getContact()">Contact</a></li>
+        <li><a href="javascript:getGallery()">Gallery</a></li>
+    </ul>`;

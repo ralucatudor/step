@@ -7,3 +7,33 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+/* Navigation Bar */
+ul {
+  list-style-type: none;	/* remove the bullets */
+  margin: 0;
+  padding: 0;
+  background-color: #495057;
+}
+
+li {
+  display: inline;	/* Create a horizontal navbar */
+	border: thin solid white;
+}
+
+li a {
+	color: #F8F9FA;
+  text-align: center;
+  padding: 0px 20px;
+  text-decoration: none;
+}
+
+li a:hover {
+	background-color: #212529;
+	color: #F8F9FA;
+}
+
+.active-nav-section {
+  background-color: #ADB5BD;
+	color: #212529;
+}
