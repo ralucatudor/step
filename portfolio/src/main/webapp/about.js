@@ -1,7 +1,7 @@
 getInfo();
 
 function getInfo() {
-    var wrapper = document.getElementById("wrapper");
+    const wrapper = document.getElementById("wrapper");
     wrapper.innerHTML = `
         <p>This is my portfolio.</p>
         <p>Click here to get a random message:</p>
