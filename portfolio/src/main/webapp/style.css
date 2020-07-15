@@ -1,11 +1,49 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+body {
+  background-color: #CCC5B9;
 }
 
-#greeting-container {
-  margin-top: 20px;
+#content {
+	background-color: white;
+  /* max-width: 650px; */
+	width: 650px;
+	margin: 0px auto;
+	height: 100%;
+	top: 0;
+	/* bottom: 0; */
+	position: absolute;
+	left: 0; 
+  right: 0; 
+	padding: 20px 5%;
+}
+
+#name {
+  text-align: center;
+}
+
+#hello-world-greeting {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  color: #495057;
+}
+
+p {
+  text-align:justify
+}
+
+section header h1 {
+	margin: 0;
+  display: inline-block;
+}
+
+.time-span {
+  float: right;
+}
+
+/* Adding side border to the left of each section from Education & Experience */
+#education section, #experience section {
+  margin-left: 1.5em;
+  padding-left: 1em;
+  border-left: 2px solid #CCC5B9;
 }
 
 /* Navigation Bar */

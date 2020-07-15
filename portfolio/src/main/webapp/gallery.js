@@ -1,7 +1,11 @@
 const totalImagesNumber = 6;
 
 function getGallery() {
-    wrapper.textContent = `Here are some photos!`;
+    wrapper.innerHTML = `
+        <p>Photography sparks my interest - to me, taking a photo means freezing a moment that would, otherwise, be impossible to reproduce.</p>
+        
+        <p>Here are some photos I took or were taken of me:</p>
+    `;
     const imageContainer = document.createElement('div');
     imageContainer.setAttribute('class', 'image-container')
 
