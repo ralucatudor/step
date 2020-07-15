@@ -14,7 +14,7 @@
 
 // Add Navigation Bar
 document.getElementById("navigation-bar").innerHTML =
-    `<ul>
+    `<ul class="navbar-list">
         <li><a href="javascript:getInfo()">About Me</a></li>
         <li><a href="javascript:getProjects()">Projects</a></li>
         <li><a href="javascript:getContact()">Contact</a></li>
