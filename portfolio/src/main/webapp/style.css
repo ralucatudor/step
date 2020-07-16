@@ -83,6 +83,7 @@ section header h1 {
 .image-container img {
   border-radius: 10%;
   max-width: 200px;
+  border: thick solid transparent;
 }
 
 .image-container img:hover {
