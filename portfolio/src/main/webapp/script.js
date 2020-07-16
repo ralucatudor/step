@@ -24,7 +24,8 @@ sections.forEach((sectionName) => {
     const navbarSection = document.createElement("li");
     const navbarSectionLink = document.createElement("a");
 
-    navbarSectionLink.setAttribute("href", "javascript:get" + sectionName.replace(/\s/g, '') + "()");   // \s is the regex for "whitespace"
+    // The whitespaces in the sectionName string are removed for calling the corresponding function
+    navbarSectionLink.setAttribute("href", "javascript:get" + sectionName.replace(/\s/g, '') + "()");
     navbarSectionLink.textContent = sectionName;
     navbarSection.appendChild(navbarSectionLink);
     
@@ -58,7 +59,9 @@ function getGallery() {
     wrapper.appendChild(galleryTitle);
 
     const galleryText = document.createElement("p");
-    galleryText.textContent = "Photography sparks my interest - to me, taking a photo means freezing a moment that would, otherwise, be impossible to reproduce. Here are some photos I took or were taken of me:";
+    galleryText.textContent = "Photography sparks my interest - to me, taking a photo " + 
+        "means freezing a moment that would, otherwise, be impossible to reproduce. " +
+        "Here are some photos I took or were taken of me:";
     wrapper.appendChild(galleryText);
 
     const imageContainer = document.createElement("div");
