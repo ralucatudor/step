@@ -13,10 +13,15 @@
 // limitations under the License.
 
 // Add Navigation Bar
-document.getElementById("navigation-bar").innerHTML =
-    `<ul class="navbar-list">
-        <li><a href="javascript:getInfo()">About Me</a></li>
-        <li><a href="javascript:getProjects()">Projects</a></li>
-        <li><a href="javascript:getContact()">Contact</a></li>
-        <li><a href="javascript:getGallery()">Gallery</a></li>
-    </ul>`;
+const navbar = document.getElementById("navigation-bar");
+
+const navbarList = document.createElement("ul");
+navbarList.setAttribute("class", "navbar-list");
+navbarList.innerHTML = `
+    <li><a href="javascript:getInfo()">About Me</a></li>
+    <li><a href="javascript:getProjects()">Projects</a></li>
+    <li><a href="javascript:getContact()">Contact</a></li>
+    <li><a href="javascript:getGallery()">Gallery</a></li>
+    `;
+
+navbar.appendChild(navbarList);
