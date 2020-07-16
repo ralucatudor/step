@@ -12,17 +12,69 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+// Add Navigation Bar
+const navbar = document.getElementById("navigation-bar");
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+const navbarList = document.createElement("ul");
+navbarList.setAttribute("class", "navbar-list");
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+let sections = ["About Me", "Projects", "Contact", "Gallery"];
+
+sections.forEach((sectionName) => {
+    const navbarSection = document.createElement("li");
+    const navbarSectionLink = document.createElement("a");
+
+    // The whitespaces in the sectionName string are removed for calling the corresponding function
+    navbarSectionLink.setAttribute("href", "javascript:get" + sectionName.replace(/\s/g, '') + "()");
+    navbarSectionLink.textContent = sectionName;
+    navbarSection.appendChild(navbarSectionLink);
+    
+    navbarList.appendChild(navbarSection);
+});
+
+navbar.appendChild(navbarList);
+
+// First section that opens is About Me
+getAboutMe();
+
+// Functions called by clicking on the sections from the navbar
+function getAboutMe() {
+    $("#wrapper").load("about-me.html");
+}
+
+function getProjects() {
+    $("#wrapper").load("projects.html");
+}
+
+function getContact() {
+    $("#wrapper").load("contact-me.html");
+}
+
+function getGallery() {
+    const wrapper = document.getElementById("wrapper");
+    wrapper.textContent = '';
+
+    const galleryTitle = document.createElement("h1");
+    galleryTitle.textContent = "Gallery";
+    wrapper.appendChild(galleryTitle);
+
+    const galleryText = document.createElement("p");
+    galleryText.textContent = "Photography sparks my interest - to me, taking a photo " + 
+        "means freezing a moment that would, otherwise, be impossible to reproduce. " +
+        "Here are some photos I took or were taken of me:";
+    wrapper.appendChild(galleryText);
+
+    const imageContainer = document.createElement("div");
+    imageContainer.setAttribute("class", "image-container")
+
+    const totalImagesNumber = 6;
+    
+    for (let imageIndex = 1; imageIndex <= totalImagesNumber; imageIndex++) {
+        const imgUrl = "images/image-" + imageIndex + ".jpg";
+        const imgElement = document.createElement("img");
+        imgElement.src = imgUrl;
+        imgElement.alt = "Photo with/ by Raluca";
+        imageContainer.appendChild(imgElement);
+    }
+    wrapper.appendChild(imageContainer);
 }
