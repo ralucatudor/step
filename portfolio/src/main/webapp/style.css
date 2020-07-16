@@ -3,10 +3,10 @@ body {
 }
 
 #content {
-	background-color: white;
-	width: 650px;
-	margin: 0px auto;
-	padding: 2.5% 5% 5% 5%;
+  background-color: white;
+  margin: 0px auto;
+  padding: 2.5% 5% 5% 5%;
+  width: 650px;
 }
 
 #name {
@@ -14,9 +14,9 @@ body {
 }
 
 #hello-world-greeting {
+  color: #495057;
   font-family: 'Press Start 2P', cursive;
   font-size: 12px;
-  color: #495057;
 }
 
 p {
@@ -24,63 +24,65 @@ p {
 }
 
 section header h1 {
-	margin: 0;
   display: inline-block;
+  margin: 0;
 }
 
 .time-span {
   float: right;
-	font-style: italic;
+  font-style: italic;
 }
 
 /* Adding side border to the left of each section from Education, Experience & Projects */
-#education section, #experience section, #projects section {
+#education section, 
+#experience section, 
+#projects section {
+  border-left: 2px solid #CCC5B9;
   margin-left: 1.5em;
   padding-left: 1em;
-  border-left: 2px solid #CCC5B9;
 }
 
 /* Navigation Bar */
 .navbar-list {
+  background-color: #495057;
   list-style-type: none;	/* remove the bullets */
   margin: 0;
   padding: 0;
-  background-color: #495057;
 }
 
 .navbar-list li {
-  display: inline;	/* Create a horizontal navbar */
   border: thin solid white;
+  display: inline;	/* Create a horizontal navbar */
 }
 
 .navbar-list a {
-	color: #F8F9FA;
-  text-align: center;
+  color: #F8F9FA;
   padding: 0px 20px;
+  text-align: center;
   text-decoration: none;
 }
 
 .navbar-list a:hover {
-	background-color: #212529;
-	color: #F8F9FA;
+  background-color: #212529;
+  color: #F8F9FA;
 }
 
 .active-nav-section {
   background-color: #ADB5BD;
-	color: #212529;
+  color: #212529;
 }
 
 /* Image Gallery */
 .image-container {
+  align-items: center;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-	align-items: center;
 }
 
 .image-container img {
-	max-width: 200px;
-	border-radius: 10%;
+  border-radius: 10%;
+  max-width: 200px;
 }
 
 .image-container img:hover {
@@ -89,12 +91,12 @@ section header h1 {
 
 /* Socials */
 .social-button {
-	text-decoration: none;
-	font-size: 18px;
-	font-weight: bold;
-	border: 1px solid #495057;
-	border-radius: 20%;
-	background-color: rgb(238, 235, 229);
-	padding: 15px 5px 5px 5px;
-	color:black;
+  background-color: rgb(238, 235, 229);	
+  border: 1px solid #495057;
+  border-radius: 20%;
+  color:black;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 5px 5px 5px;
+  text-decoration: none;
 }

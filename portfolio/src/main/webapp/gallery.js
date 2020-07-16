@@ -6,13 +6,14 @@ function getGallery() {
         
         <p>Here are some photos I took or were taken of me:</p>
     `;
-    const imageContainer = document.createElement('div');
-    imageContainer.setAttribute('class', 'image-container')
+    const imageContainer = document.createElement("div");
+    imageContainer.setAttribute("class", "image-container")
 
     for (let imageIndex = 1; imageIndex <= totalImagesNumber; imageIndex++) {
-        const imgUrl = 'images/image-' + imageIndex + '.jpg';
-        const imgElement = document.createElement('img');
+        const imgUrl = "images/image-" + imageIndex + ".jpg";
+        const imgElement = document.createElement("img");
         imgElement.src = imgUrl;
+        imgElement.alt = "Photo with/ by Raluca";
         imageContainer.appendChild(imgElement);
     }
     wrapper.appendChild(imageContainer);

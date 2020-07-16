@@ -8,7 +8,7 @@ function getProjects() {
                     <h1>
                         Doodle Jump Game
                     </h1>
-                    <span class="time-span">Apr. &ndash; May 2020</span>
+                    <span class="time-span">Apr. - May 2020</span>
                     <div>[C++/SFML] Object Oriented Programming Project</div>
                 </header>
                 <p>
@@ -25,7 +25,7 @@ function getProjects() {
                     <h1>
                         Zenodotus - Home library management
                     </h1>
-                    <span class="time-span">May &ndash; June 2020</span>
+                    <span class="time-span">May - June 2020</span>
                     <div>Single-page web application</div>
                 </header>
                 <p>Built using HTML/CSS, JavaScript and Node.js</p>

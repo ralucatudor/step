@@ -22,6 +22,6 @@ navbarList.innerHTML = `
     <li><a href="javascript:getProjects()">Projects</a></li>
     <li><a href="javascript:getContact()">Contact</a></li>
     <li><a href="javascript:getGallery()">Gallery</a></li>
-    `;
+`;
 
 navbar.appendChild(navbarList);
