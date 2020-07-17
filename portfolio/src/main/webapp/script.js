@@ -78,3 +78,9 @@ function getGallery() {
     }
     wrapper.appendChild(imageContainer);
 }
+
+function getGreeting() {
+    fetch('/greeting').then(response => response.text()).then((greeting) => {
+        document.getElementById('greeting-container').innerText = greeting;
+  });
+}

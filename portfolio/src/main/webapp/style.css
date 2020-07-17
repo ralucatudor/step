@@ -13,7 +13,7 @@ body {
   text-align: center;
 }
 
-#hello-world-greeting {
+#greeting-container {
   color: #495057;
   font-family: 'Press Start 2P', cursive;
   font-size: 12px;
