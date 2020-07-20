@@ -18,7 +18,7 @@ const navbar = document.getElementById("navigation-bar");
 const navbarList = document.createElement("ul");
 navbarList.setAttribute("class", "navbar-list");
 
-let sections = ["About Me", "Projects", "Contact", "Gallery"];
+let sections = ["About Me", "Projects", "Contact", "Gallery", "Comments"];
 
 sections.forEach((sectionName) => {
     const navbarSection = document.createElement("li");
@@ -36,6 +36,13 @@ navbar.appendChild(navbarList);
 
 // First section that opens is About Me
 getAboutMe();
+
+// Fetches a greeting from the server and adds it to the DOM.
+function getGreeting() {
+    fetch('/greeting').then(response => response.text()).then((greeting) => {
+        document.getElementById('greeting-container').innerText = greeting;
+  });
+}
 
 // Functions called by clicking on the sections from the navbar
 function getAboutMe() {
@@ -77,4 +84,30 @@ function getGallery() {
         imageContainer.appendChild(imgElement);
     }
     wrapper.appendChild(imageContainer);
+}
+
+/**
+ * Fetches comments from the server and adds them to the DOM.
+ */
+function getComments() {
+    const wrapper = document.getElementById("wrapper");
+    wrapper.textContent = '';
+
+    const commnentContainer = document.createElement('ul');
+    fetch('/data').then(response => response.json()).then((comments) => {
+        for (let comment of comments) {
+            commnentContainer.appendChild(
+                createListElement(comment.text + ', by ' + comment.author +
+                                  ', posted on: ' + comment.date));
+        }
+    });
+    
+    wrapper.appendChild(commnentContainer);
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
 }
