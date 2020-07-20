@@ -37,21 +37,15 @@ public class DataServlet extends HttpServlet {
     comments.add(new Comment("Lorem ipsum dolor sit amet.", "Anonymus1"));
     comments.add(new Comment("Fusce id condimentum arcu.", "Anonymus2"));
     comments.add(new Comment("Phasellus vestibulum enim sit amet feugiat posuere.", "Anonymus3"));
+    // TODO: remove initialization in the final version
 
-    String json = convertToJson(comments);
-
-    // Send the JSON as the response
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
-  }
-
-  /**
-   * Converts comments List into a JSON string using the Gson library. Note: I first added
-   * the Gson library dependency to pom.xml.
-   */
-  private String convertToJson(List<Comment> comments) {
+    /** 
+     * Convert comments List into a JSON string using Gson library and
+     * send the JSON as the response
+     */
     Gson gson = new Gson();
-    String json = gson.toJson(comments);
-    return json;
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(comments));
   }
 }
