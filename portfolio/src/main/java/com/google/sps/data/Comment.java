@@ -30,9 +30,7 @@ public final class Comment {
   }
 
   public Comment(String text, String author) {
-    this.date = new Date();
-    this.text = text;
-    this.author = author;
+    this(new Date(), text, author);
   }
 
   public Date getDate() {
