@@ -92,13 +92,17 @@ function getGallery() {
 function getComments() {
     const wrapper = document.getElementById("wrapper");
     wrapper.textContent = '';
+
+    const commnentContainer = document.createElement('ul');
     fetch('/data').then(response => response.json()).then((comments) => {
         for (let comment of comments) {
-            wrapper.appendChild(
+            commnentContainer.appendChild(
                 createListElement(comment.text + ', by ' + comment.author +
                                   ', posted on: ' + comment.date));
         }
     });
+    
+    wrapper.appendChild(commnentContainer);
 }
 
 /** Creates an <li> element containing text. */
