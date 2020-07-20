@@ -38,7 +38,6 @@ public class DataServlet extends HttpServlet {
     comments.add(new Comment("Fusce id condimentum arcu.", "Anonymus2"));
     comments.add(new Comment("Phasellus vestibulum enim sit amet feugiat posuere.", "Anonymus3"));
 
-    // Convert the server stats to JSON
     String json = convertToJson(comments);
 
     // Send the JSON as the response
