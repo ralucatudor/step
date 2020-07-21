@@ -13,19 +13,19 @@
 // limitations under the License.
 
 // Add Navigation Bar
-const navbar = document.getElementById("navigation-bar");
+const navbar = document.getElementById('navigation-bar');
 
-const navbarList = document.createElement("ul");
-navbarList.setAttribute("class", "navbar-list");
+const navbarList = document.createElement('ul');
+navbarList.setAttribute('class', 'navbar-list');
 
-let sections = ["About Me", "Projects", "Contact", "Gallery", "Comments"];
+let sections = ['About Me', 'Projects', 'Contact', 'Gallery', 'Comments'];
 
 sections.forEach((sectionName) => {
-    const navbarSection = document.createElement("li");
-    const navbarSectionLink = document.createElement("a");
+    const navbarSection = document.createElement('li');
+    const navbarSectionLink = document.createElement('a');
 
     // The whitespaces in the sectionName string are removed for calling the corresponding function
-    navbarSectionLink.setAttribute("href", "javascript:get" + sectionName.replace(/\s/g, '') + "()");
+    navbarSectionLink.setAttribute('href', 'javascript:get' + sectionName.replace(/\s/g, '') + '()');
     navbarSectionLink.textContent = sectionName;
     navbarSection.appendChild(navbarSectionLink);
     
@@ -46,41 +46,41 @@ function getGreeting() {
 
 // Functions called by clicking on the sections from the navbar
 function getAboutMe() {
-    $("#wrapper").load("about-me.html");
+    $('#wrapper').load('about-me.html');
 }
 
 function getProjects() {
-    $("#wrapper").load("projects.html");
+    $('#wrapper').load('projects.html');
 }
 
 function getContact() {
-    $("#wrapper").load("contact-me.html");
+    $('#wrapper').load('contact-me.html');
 }
 
 function getGallery() {
-    const wrapper = document.getElementById("wrapper");
+    const wrapper = document.getElementById('wrapper');
     wrapper.textContent = '';
 
-    const galleryTitle = document.createElement("h1");
-    galleryTitle.textContent = "Gallery";
+    const galleryTitle = document.createElement('h1');
+    galleryTitle.textContent = 'Gallery';
     wrapper.appendChild(galleryTitle);
 
-    const galleryText = document.createElement("p");
-    galleryText.textContent = "Photography sparks my interest - to me, taking a photo " + 
-        "means freezing a moment that would, otherwise, be impossible to reproduce. " +
-        "Here are some photos I took or were taken of me:";
+    const galleryText = document.createElement('p');
+    galleryText.textContent = 'Photography sparks my interest - to me, taking a photo ' + 
+        'means freezing a moment that would, otherwise, be impossible to reproduce. ' +
+        'Here are some photos I took or were taken of me:';
     wrapper.appendChild(galleryText);
 
-    const imageContainer = document.createElement("div");
-    imageContainer.setAttribute("class", "image-container")
+    const imageContainer = document.createElement('div');
+    imageContainer.setAttribute('class', 'image-container')
 
     const totalImagesNumber = 6;
     
     for (let imageIndex = 1; imageIndex <= totalImagesNumber; imageIndex++) {
-        const imgUrl = "images/image-" + imageIndex + ".jpg";
-        const imgElement = document.createElement("img");
+        const imgUrl = 'images/image-' + imageIndex + '.jpg';
+        const imgElement = document.createElement('img');
         imgElement.src = imgUrl;
-        imgElement.alt = "Photo with/ by Raluca";
+        imgElement.alt = 'Photo with/ by Raluca';
         imageContainer.appendChild(imgElement);
     }
     wrapper.appendChild(imageContainer);
@@ -90,8 +90,17 @@ function getGallery() {
  * Fetches comments from the server and adds them to the DOM.
  */
 function getComments() {
-    const wrapper = document.getElementById("wrapper");
+    const wrapper = document.getElementById('wrapper');
     wrapper.textContent = '';
+
+    const commentsTitle = document.createElement('h1');
+    commentsTitle.textContent = 'Comments';
+    wrapper.appendChild(commentsTitle);
+
+    const newCommentButton = document.createElement('button');
+    newCommentButton.textContent = 'Add New Comment';
+    newCommentButton.onclick = getCommentForm;
+    wrapper.appendChild(newCommentButton);
 
     const commnentContainer = document.createElement('ul');
     fetch('/data').then(response => response.json()).then((comments) => {
@@ -110,4 +119,8 @@ function createListElement(text) {
     const liElement = document.createElement('li');
     liElement.innerText = text;
     return liElement;
+}
+
+function getCommentForm() {
+    $('#wrapper').load('comment-form.html');
 }
