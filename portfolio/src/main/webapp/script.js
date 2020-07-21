@@ -12,6 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+window.onload = function() {
+    switch (window.location.hash) {
+        case '#projects':
+            getProjects();
+            break;
+        case '#contact':
+            getContact();
+            break;
+        case '#gallery':
+            getGallery();
+            break;
+        case '#comments':
+            getComments();
+            break;
+        default:    
+            // First section that opens is About Me
+            getAboutMe();
+    }
+}
+
 // Add Navigation Bar
 const navbar = document.getElementById('navigation-bar');
 
@@ -34,30 +54,32 @@ sections.forEach((sectionName) => {
 
 navbar.appendChild(navbarList);
 
-// First section that opens is About Me
-getAboutMe();
-
 // Fetches a greeting from the server and adds it to the DOM.
 function getGreeting() {
     fetch('/greeting').then(response => response.text()).then((greeting) => {
         document.getElementById('greeting-container').innerText = greeting;
-  });
+    });
 }
 
 // Functions called by clicking on the sections from the navbar
 function getAboutMe() {
+    window.location.hash = 'about-me';
     $('#wrapper').load('about-me.html');
 }
 
 function getProjects() {
+    window.location.hash = 'projects';
     $('#wrapper').load('projects.html');
 }
 
 function getContact() {
+    window.location.hash = 'contact';
     $('#wrapper').load('contact-me.html');
 }
 
 function getGallery() {
+    window.location.hash = 'gallery';
+
     const wrapper = document.getElementById('wrapper');
     wrapper.textContent = '';
 
@@ -90,6 +112,8 @@ function getGallery() {
  * Fetches comments from the server and adds them to the DOM.
  */
 function getComments() {
+    window.location.hash = 'comments';
+
     const wrapper = document.getElementById('wrapper');
     wrapper.textContent = '';
 
