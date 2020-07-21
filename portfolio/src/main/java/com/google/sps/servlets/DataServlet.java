@@ -14,10 +14,17 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.data.Comment;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,14 +37,20 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      Date date = (Date) entity.getProperty("date");
+      String text = (String) entity.getProperty("text");
+      String author = (String) entity.getProperty("author");
 
-    // Add a few hard-coded comments
-    comments.add(new Comment("Lorem ipsum dolor sit amet.", "Anonymus1"));
-    comments.add(new Comment("Fusce id condimentum arcu.", "Anonymus2"));
-    comments.add(new Comment("Phasellus vestibulum enim sit amet feugiat posuere.", "Anonymus3"));
-    // TODO: remove initialization in the final version
+      Comment comment = new Comment(date, text, author);
+      comments.add(comment);
+    }
 
     /** 
      * Convert comments List into a JSON string using Gson library and
@@ -47,5 +60,22 @@ public class DataServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String text = request.getParameter("text-input");
+    String author = request.getParameter("author");
+    Date date = new Date();
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("text", text);
+    commentEntity.setProperty("author", author);
+    commentEntity.setProperty("date", date);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+
+    response.sendRedirect("/index.html");
   }
 }
