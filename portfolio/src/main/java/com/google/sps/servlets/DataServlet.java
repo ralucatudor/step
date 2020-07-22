@@ -46,11 +46,12 @@ public class DataServlet extends HttpServlet {
 
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
       Date date = (Date) entity.getProperty("date");
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
 
-      Comment comment = new Comment(date, text, author);
+      Comment comment = Comment.create(id, date, text, author);
       comments.add(comment);
     }
 

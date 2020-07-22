@@ -14,34 +14,19 @@
 
 package com.google.sps.data;
 
+import com.google.auto.value.AutoValue;
 import java.util.Date;
 
 /** Class containing comment data. */
-public final class Comment {
+@AutoValue
+public abstract class Comment {
 
-  private final Date date;
-  private final String text;
-  private final String author;
-
-  public Comment(Date date, String text, String author) {
-    this.date = date;
-    this.text = text;
-    this.author = author;
+  public static Comment create(long id, Date date, String text, String author) {
+    return new AutoValue_Comment(id, date, text, author);
   }
 
-  public Comment(String text, String author) {
-    this(new Date(), text, author);
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public String getAuthor() {
-    return author;
-  }
+  public abstract long getId();
+  public abstract Date getDate();
+  public abstract String getText();
+  public abstract String getAuthor();
 }
