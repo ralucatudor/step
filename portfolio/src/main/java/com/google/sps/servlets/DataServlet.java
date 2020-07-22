@@ -37,8 +37,10 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Sort comments by date from newest to oldest
     Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
 
+    // Load comment data from the database
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
@@ -64,8 +66,10 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Take the input from the POST request 
     String text = request.getParameter("text-input");
     String author = request.getParameter("author");
+    // The added date for the comment will be the current date.
     Date date = new Date();
 
     Entity commentEntity = new Entity("Comment");
@@ -73,9 +77,11 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("author", author);
     commentEntity.setProperty("date", date);
 
+    // Store comment data in the database
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
+    // Redirect the user back to the Comments page, which shows all the added comments
     response.sendRedirect("/#comments");
   }
 }
