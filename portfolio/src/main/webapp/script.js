@@ -45,7 +45,7 @@ sections.forEach((sectionName) => {
     const navbarSectionLink = document.createElement('a');
 
     // The whitespaces in the sectionName string are removed for calling the corresponding function
-    navbarSectionLink.setAttribute('href', 'javascript:get' + sectionName.replace(/\s/g, '') + '()');
+    navbarSectionLink.setAttribute('href', `javascript:get${sectionName.replace(/\s/g, '')}()`);
     navbarSectionLink.textContent = sectionName;
     navbarSection.appendChild(navbarSectionLink);
     
@@ -99,7 +99,7 @@ function getGallery() {
     const totalImagesNumber = 6;
     
     for (let imageIndex = 1; imageIndex <= totalImagesNumber; imageIndex++) {
-        const imgUrl = 'images/image-' + imageIndex + '.jpg';
+        const imgUrl = `images/image-${imageIndex}.jpg`;
         const imgElement = document.createElement('img');
         imgElement.src = imgUrl;
         imgElement.alt = 'Photo with/ by Raluca';
@@ -130,8 +130,8 @@ function getComments() {
     fetch('/data').then(response => response.json()).then((comments) => {
         for (let comment of comments) {
             commnentContainer.appendChild(
-                createListElement(comment.text + ', by ' + comment.author +
-                                  ', posted on: ' + comment.date));
+                createListElement(`${comment.text}, by ${comment.author}, \
+                                   posted on: ${comment.date}`));
         }
     });
     
