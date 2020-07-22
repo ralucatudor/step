@@ -45,6 +45,7 @@ section header h1 {
 /* Navigation Bar */
 .navbar-list {
   background-color: #495057;
+  font-size: 20px;
   list-style-type: none;	/* remove the bullets */
   margin: 0;
   padding: 0;
