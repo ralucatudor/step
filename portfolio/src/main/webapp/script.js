@@ -179,7 +179,7 @@ function createCommentElement(comment) {
   deleteButtonElement.addEventListener('click', () => {
     deleteComment(comment);
 
-    // Remove the comment from the DOM.
+    // Remove the comment from the DOM
     commentElement.remove();
   });
 
