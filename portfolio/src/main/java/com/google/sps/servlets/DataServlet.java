@@ -36,10 +36,24 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private static final int REQUESTED_COMMENTS_LIMIT = 1000;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int maxCommentsNumber = Integer.parseInt(request.getParameter("max-comments"));
-    // Sort comments by date from newest to oldest
+    int maxCommentsNumber;
+
+    // Try to convert the value from the 'max-comments' field of the query string to int
+    try {
+      maxCommentsNumber = Integer.parseInt(request.getParameter("max-comments"));
+    } catch (NumberFormatException e) {
+      // Handle the exception
+      maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+    }
+
+    // Assure that maxCommentsNumber is not negative
+    maxCommentsNumber = Math.max(maxCommentsNumber, 0);
+    
+    // Create query for sorting comments by date from newest to oldest
     Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
 
     // Load comment data from the database
