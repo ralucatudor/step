@@ -117,25 +117,51 @@ function getComments() {
     const wrapper = document.getElementById('wrapper');
     wrapper.textContent = '';
 
+    // Add "Comments" Heading
     const commentsTitle = document.createElement('h1');
     commentsTitle.textContent = 'Comments';
     wrapper.appendChild(commentsTitle);
 
+    // Add button that redirects to the form for adding a new comment
     const newCommentButton = document.createElement('button');
     newCommentButton.textContent = 'Add New Comment';
     newCommentButton.onclick = getCommentForm;
     wrapper.appendChild(newCommentButton);
 
-    const commnentContainer = document.createElement('ul');
-    fetch('/data').then(response => response.json()).then((comments) => {
+    // Add form where the user can pick a maximum number of comments to fetch and display
+    const maxCommentsForm = document.createElement('div');
+    maxCommentsForm.setAttribute('id', 'max-comments-form-container');
+    // $(function() is a shorthand for jQuery(document).ready(function(){
+    $(function() {
+        $('#max-comments-form-container').load('max-comments-form.html');
+    });
+    wrapper.appendChild(maxCommentsForm);
+
+    const commnentsContainer = document.createElement('ul');
+    commnentsContainer.setAttribute('id', 'comments-container');
+    wrapper.appendChild(commnentsContainer);
+}
+
+function getCommentsFromServer() {
+    // Get the maximum number of comments from the user input
+    var maxCommentsNumber = document.getElementById("max-comments-number").value;
+    if (maxCommentsNumber === null){
+        maxCommentsNumber = 0;
+    }
+
+    const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
+    const commnentsContainer = document.getElementById('comments-container');
+    commnentsContainer.innerHTML = '';
+    fetch(fetchURL).then(response => response.json()).then((comments) => {
         for (let comment of comments) {
-            commnentContainer.appendChild(
+            commnentsContainer.appendChild(
                 createListElement(`${comment.text}, by ${comment.author}, \
                                    posted on: ${comment.date}`));
         }
     });
     
-    wrapper.appendChild(commnentContainer);
+    const wrapper = document.getElementById('wrapper');
+    wrapper.appendChild(commnentsContainer);
 }
 
 /** Creates an <li> element containing text. */
