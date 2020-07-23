@@ -9,7 +9,14 @@ body {
   width: 650px;
 }
 
+#wrapper>h1, #name {
+    color: #A9927D;
+    font-family: 'Parisienne', cursive;
+}
+
 #name {
+  color: #9E2A2B;
+  font-size: 40px;
   text-align: center;
 }
 
