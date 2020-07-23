@@ -102,7 +102,7 @@ section header h1 {
 .social-button {
   background-color: rgb(238, 235, 229);	
   border: 1px solid #495057;
-  border-radius: 20%;
+  border-radius: 5%;
   color:black;
   font-size: 18px;
   font-weight: bold;
