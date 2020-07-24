@@ -110,34 +110,7 @@ function getGallery() {
 
 function getComments() {
   window.location.hash = 'comments';
-
-  const wrapper = document.getElementById('wrapper');
-  wrapper.textContent = '';
-
-  // Add "Comments" Heading
-  const commentsTitle = document.createElement('h1');
-  commentsTitle.textContent = 'Comments';
-  wrapper.appendChild(commentsTitle);
-
-  // Add button that redirects to the form for adding a new comment
-  const newCommentButton = document.createElement('button');
-  newCommentButton.textContent = 'Add New Comment';
-  newCommentButton.onclick = getCommentForm;
-  wrapper.appendChild(newCommentButton);
-
-  // Add form where the user can pick a maximum number of comments to fetch and display
-  const maxCommentsForm = document.createElement('div');
-  maxCommentsForm.setAttribute('id', 'max-comments-form-container');
-  // $(function() is a shorthand for jQuery(document).ready(function()
-  $(function() {
-    $('#max-comments-form-container').load('max-comments-form.html');
-  });
-  wrapper.appendChild(maxCommentsForm);
-
-  // Create container for displaying comments 
-  const commnentsContainer = document.createElement('ul');
-  commnentsContainer.setAttribute('id', 'comments-container');
-  wrapper.appendChild(commnentsContainer);
+  $('#wrapper').load('comments.html');
 }
 
 function getCommentForm() {
