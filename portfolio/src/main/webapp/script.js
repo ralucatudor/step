@@ -145,8 +145,8 @@ function getCommentForm() {
 }
 
 function getCommentsFromServer() {
-  // Get the maximum number of comments from the user input
-  let maxCommentsNumber = document.getElementById("max-comments-number").value;
+  // Get the maximum number of comments from the user input. If no value is given, assign 0.
+  let maxCommentsNumber = document.getElementById("max-comments-number").value || 0;
 
   // Fetch comments from the server and add them to the DOM
   const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
