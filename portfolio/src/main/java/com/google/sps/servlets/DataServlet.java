@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private static final int REQUESTED_COMMENTS_LIMIT = 1000;
+  private static final int REQUESTED_COMMENTS_LIMIT = 100;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -50,8 +50,10 @@ public class DataServlet extends HttpServlet {
       maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
     }
 
-    // Assure that maxCommentsNumber is not negative
-    maxCommentsNumber = Math.max(maxCommentsNumber, 0);
+    // If maxCommentsNumber is negative, fallback to the maximum instead
+    if (maxCommentsNumber < 0) {
+      maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+    }
     
     // Create query for sorting comments by date from newest to oldest
     Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);

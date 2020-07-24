@@ -146,23 +146,20 @@ function getCommentForm() {
 
 function getCommentsFromServer() {
   // Get the maximum number of comments from the user input
-  var maxCommentsNumber = document.getElementById("max-comments-number").value;
-  if (maxCommentsNumber === null) {
-    maxCommentsNumber = 0;
-  }
+  let maxCommentsNumber = document.getElementById("max-comments-number").value;
 
   // Fetch comments from the server and add them to the DOM
   const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
-  const commnentsContainer = document.getElementById('comments-container');
-  commnentsContainer.innerHTML = '';
-  fetch(fetchURL).then(response => response.json()).then((comments) => {
+  const commentsContainer = document.getElementById('comments-container');
+  commentsContainer.innerHTML = '';
+  fetch(fetchURL).then((response) => response.json()).then((comments) => {
     comments.forEach((comment) => {
-      commnentsContainer.appendChild(createCommentElement(comment));
+      commentsContainer.appendChild(createCommentElement(comment));
     })
   });
 
   const wrapper = document.getElementById('wrapper');
-  wrapper.appendChild(commnentsContainer);
+  wrapper.appendChild(commentsContainer);
 }
 
 // Creates an element that represents a comment, including its delete button
