@@ -121,8 +121,6 @@ function getCommentsFromServer() {
   // Get the maximum number of comments from the user input.
   let maxCommentsNumber = document.getElementById("max-comments-number").value;
 
-  const wrapper = document.getElementById('wrapper');
-
   // Fetch comments from the server and add them to the DOM
   const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
   const commentsContainer = document.getElementById('comments-container');
@@ -148,6 +146,7 @@ function getCommentsFromServer() {
       warningContainer.appendChild(warning);
     });
 
+  const wrapper = document.getElementById('wrapper');
   wrapper.appendChild(commentsContainer);
 }
 
