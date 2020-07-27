@@ -38,7 +38,7 @@ const navbar = document.getElementById('navigation-bar');
 const navbarList = document.createElement('ul');
 navbarList.setAttribute('class', 'navbar-list');
 
-let sections = ['About Me', 'Projects', 'Contact', 'Gallery', 'Comments'];
+const sections = ['About Me', 'Projects', 'Contact', 'Gallery', 'Comments'];
 
 sections.forEach((sectionName) => {
   const navbarSection = document.createElement('li');
@@ -123,10 +123,13 @@ function getCommentsFromServer() {
 
   // Fetch comments from the server and add them to the DOM
   const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
+  
   const commentsContainer = document.getElementById('comments-container');
   commentsContainer.innerHTML = '';
+  
   const warningContainer = document.getElementById('warning-container');
   warningContainer.innerHTML = '';
+
   fetch(fetchURL)
     .then((response) => {
       if (!response.ok) {
