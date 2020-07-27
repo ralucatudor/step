@@ -118,20 +118,36 @@ function getCommentForm() {
 }
 
 function getCommentsFromServer() {
-  // Get the maximum number of comments from the user input. If no value is given, assign 0.
-  let maxCommentsNumber = document.getElementById("max-comments-number").value || 0;
+  // Get the maximum number of comments from the user input.
+  let maxCommentsNumber = document.getElementById("max-comments-number").value;
+
+  const wrapper = document.getElementById('wrapper');
 
   // Fetch comments from the server and add them to the DOM
   const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
   const commentsContainer = document.getElementById('comments-container');
   commentsContainer.innerHTML = '';
-  fetch(fetchURL).then((response) => response.json()).then((comments) => {
-    comments.forEach((comment) => {
-      commentsContainer.appendChild(createCommentElement(comment));
+  const warningContainer = document.getElementById('warning-container');
+  warningContainer.innerHTML = '';
+  fetch(fetchURL)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response.json();
+    }).then((comments) => {
+      comments.forEach((comment) => {
+        commentsContainer.appendChild(createCommentElement(comment));
+      })
     })
-  });
+    .catch(error => {
+      console.log(error);
+      const warning = document.createElement('p');
+      warning.innerText = `Encountered "${error}".\
+        Please introduce a non-negative integer or leave the input empty.`
+      warningContainer.appendChild(warning);
+    });
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.appendChild(commentsContainer);
 }
 

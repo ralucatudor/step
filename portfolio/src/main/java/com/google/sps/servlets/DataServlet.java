@@ -42,17 +42,22 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int maxCommentsNumber;
 
-    // Try to convert the value from the 'max-comments' field of the query string to int
-    try {
-      maxCommentsNumber = Integer.parseInt(request.getParameter("max-comments"));
-    } catch (NumberFormatException e) {
-      // Handle the exception
-      maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+    // Check if max-comments parameter exists
+    if (request.getParameterMap().containsKey("max-comments")) {
+      // Try to convert the value from the 'max-comments' field of the query string to int
+      try {
+        maxCommentsNumber = Integer.parseInt(request.getParameter("max-comments"));
+      } catch (NumberFormatException e) {
+        maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+      }
+    } else {
+      response.sendError(400, "'max-comments' parameter is missing.");
+      return;
     }
 
-    // If maxCommentsNumber is negative, fallback to the maximum instead
+    // If maxCommentsNumber is negative, send error
     if (maxCommentsNumber < 0) {
-      maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+      response.sendError(400, "Cannot load a negative number of comments.");
     }
     
     // Create query for sorting comments by date from newest to oldest
