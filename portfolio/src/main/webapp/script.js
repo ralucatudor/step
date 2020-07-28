@@ -119,10 +119,15 @@ function getCommentForm() {
 
 function getCommentsFromServer() {
   // Get the maximum number of comments from the user input.
-  let maxCommentsNumber = document.getElementById("max-comments-number").value;
+  const maxCommentsNumber = document.getElementById("max-comments-number").value;
 
   // Fetch comments from the server and add them to the DOM
-  const fetchURL = `/data?max-comments=${maxCommentsNumber}`;
+  let fetchURL;
+  if (maxCommentsNumber === null) {
+    fetchURL = '/data';
+  } else {
+    fetchURL = `/data?max-comments=${maxCommentsNumber}`;
+  }
   
   const commentsContainer = document.getElementById('comments-container');
   commentsContainer.innerHTML = '';

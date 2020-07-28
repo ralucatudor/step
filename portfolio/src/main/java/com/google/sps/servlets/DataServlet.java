@@ -42,7 +42,7 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int maxCommentsNumber;
 
-    // Check if max-comments parameter exists
+    // Check if max-comments parameter exists (it is an optional parameter)
     if (request.getParameterMap().containsKey("max-comments")) {
       // Try to convert the value from the 'max-comments' field of the query string to int
       try {
@@ -51,8 +51,8 @@ public class DataServlet extends HttpServlet {
         maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
       }
     } else {
-      response.sendError(400, "'max-comments' parameter is missing.");
-      return;
+      // If max-comments parameter is not set, fetch the requested comments limit to support pagination
+      maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
     }
 
     // If maxCommentsNumber is negative, send error
