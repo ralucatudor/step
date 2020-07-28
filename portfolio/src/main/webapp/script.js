@@ -164,11 +164,11 @@ function createCommentElement(comment) {
   commentElement.className = 'comment-box';
 
   const commentAuthor = document.createElement('div');
-  commentAuthor.innerText = `${comment.author}`;
+  commentAuthor.innerText = comment.author;
   commentAuthor.className = 'comment-author';
 
   const commentText = document.createElement('div');
-  commentText.innerText = `${comment.text}`;
+  commentText.innerText = comment.text;
 
   const commentDate = document.createElement('span');
   commentDate.innerHTML = `posted on: ${comment.date}`;
