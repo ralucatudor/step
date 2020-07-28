@@ -57,7 +57,7 @@ public class DataServlet extends HttpServlet {
 
     // If maxCommentsNumber is negative, send error
     if (maxCommentsNumber < 0) {
-      response.sendError(400, "Cannot load a negative number of comments.");
+      response.sendError(400, "max-comments cannot be negative");
     }
     
     // Create query for sorting comments by date from newest to oldest
