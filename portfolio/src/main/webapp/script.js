@@ -161,14 +161,23 @@ function getCommentsFromServer() {
 // Creates an element that represents a comment, including its delete button
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
-  commentElement.className = 'comment';
+  commentElement.className = 'comment-box';
 
-  const textElement = document.createElement('span');
-  textElement.innerText = `${comment.text}, by ${comment.author}, \
-                           posted on: ${comment.date}`;
+  const commentAuthor = document.createElement('div');
+  commentAuthor.innerText = `${comment.author}`;
+  commentAuthor.className = 'comment-author';
 
+  const commentText = document.createElement('div');
+  commentText.innerText = `${comment.text}`;
+
+  const commentDate = document.createElement('span');
+  commentDate.innerHTML = `posted on: ${comment.date}`;
+  commentDate.className = 'time-span';
+
+  // Add button that deletes the comment
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
+  deleteButtonElement.className = 'delete-comment-button';
   deleteButtonElement.addEventListener('click', () => {
     deleteComment(comment);
 
@@ -176,7 +185,9 @@ function createCommentElement(comment) {
     commentElement.remove();
   });
 
-  commentElement.appendChild(textElement);
+  commentElement.appendChild(commentDate);
+  commentElement.appendChild(commentAuthor);
+  commentElement.appendChild(commentText);
   commentElement.appendChild(deleteButtonElement);
   return commentElement;
 }
