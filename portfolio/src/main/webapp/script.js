@@ -32,6 +32,9 @@ window.onload = function() {
   }
 }
 
+// Get content wrapper
+const wrapper = document.getElementById('wrapper');
+
 // Add Navigation Bar
 const navbar = document.getElementById('navigation-bar');
 
@@ -53,6 +56,26 @@ sections.forEach((sectionName) => {
 });
 
 navbar.appendChild(navbarList);
+
+/**
+ * Callback when the user scrolls the page
+ */
+window.onscroll = onWindowScrolled;
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+
+const navbarPaddingTop = 10;  // QUESTION: $('.navbar-list a')[0].paddingTop appears as undefined
+// Get the offset position of the navbar
+const navbarOffsetTop = navbar.offsetTop - 10;
+
+function onWindowScrolled() {
+  if (window.pageYOffset >= navbarOffsetTop) {
+    navbar.classList.add('fixed-navbar');
+    wrapper.style.paddingTop = navbar.offsetHeight + 'px';
+  } else {
+    navbar.classList.remove('fixed-navbar');
+    wrapper.style.paddingTop = 0;
+  }
+}
 
 // Fetches a greeting from the server and adds it to the DOM.
 function getGreeting() {
@@ -80,7 +103,6 @@ function getContact() {
 function getGallery() {
   window.location.hash = 'gallery';
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.textContent = '';
 
   const galleryTitle = document.createElement('h1');
@@ -154,7 +176,6 @@ function getCommentsFromServer() {
       warningContainer.appendChild(warning);
     });
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.appendChild(commentsContainer);
 }
 
