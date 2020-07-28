@@ -1,0 +1,25 @@
+<!-- Comments Section static elements -->
+<h1>Comments</h1>
+
+<button onclick="getCommentForm()">Add New Comment</button>
+
+<!-- Form where the user can pick a maximum number of comments to fetch and display -->
+<div id="max-comments-form-container">
+  <p> Choose the maximum number of comments to display below.</p>
+  <form>
+    <label for="max-comments">Maximum number:</label>
+    <input type="text" id="max-comments-number" name="max-comments-number" placeholder="Enter the number here">
+  </form>
+  
+  <p>
+    Don't forget to click the "Load comments" button to update the number of comments displayed. 
+    Clicking the button without any number input will show all the comments.
+  </p>
+  <button type="button" onclick="getCommentsFromServer()">Load comments</button>    
+<div>
+
+<!-- Container for displaying comments -->
+<ul id="comments-container"></ul>
+
+<!-- Container for displaying encountered errors -->
+<div id="warning-container"></div>

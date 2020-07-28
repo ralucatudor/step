@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -35,9 +36,31 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private static final int REQUESTED_COMMENTS_LIMIT = 100;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Sort comments by date from newest to oldest
+    int maxCommentsNumber;
+
+    // Check if max-comments parameter exists (it is an optional parameter)
+    if (request.getParameterMap().containsKey("max-comments")) {
+      // Try to convert the value from the 'max-comments' field of the query string to int
+      try {
+        maxCommentsNumber = Integer.parseInt(request.getParameter("max-comments"));
+      } catch (NumberFormatException e) {
+        maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+      }
+    } else {
+      // If max-comments parameter is not set, fetch the requested comments limit to support pagination
+      maxCommentsNumber = REQUESTED_COMMENTS_LIMIT;
+    }
+
+    // If maxCommentsNumber is negative, send error
+    if (maxCommentsNumber < 0) {
+      response.sendError(400, "max-comments cannot be negative");
+    }
+    
+    // Create query for sorting comments by date from newest to oldest
     Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
 
     // Load comment data from the database
@@ -45,7 +68,7 @@ public class DataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(maxCommentsNumber))) {
       long id = entity.getKey().getId();
       Date date = (Date) entity.getProperty("date");
       String text = (String) entity.getProperty("text");
