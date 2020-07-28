@@ -58,14 +58,14 @@ sections.forEach((sectionName) => {
 navbar.appendChild(navbarList);
 
 /**
- * Callback when the user scrolls the page
+ * Callback when the user scrolls the page: add 'fixed-navbar' class to navbar when the top
+ * of the navbar is reached. Remove 'fixed-navbar' class when scrolling back to the top.
  */
 window.onscroll = onWindowScrolled;
-// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
 
 const navbarPaddingTop = 10;  // QUESTION: $('.navbar-list a')[0].paddingTop appears as undefined
 // Get the offset position of the navbar
-const navbarOffsetTop = navbar.offsetTop - 10;
+const navbarOffsetTop = navbar.offsetTop - navbarPaddingTop;
 
 function onWindowScrolled() {
   if (window.pageYOffset >= navbarOffsetTop) {
