@@ -111,8 +111,8 @@ function createMap() {
   // Add info windows to markers
   addInfoWindow(map, homeMarker, 'I have lived here since 2015.');
   addInfoWindow(map, universityMarker, '<h3>University of Bucharest</h3>' + 
-                                       '<p>I am currently studying at the \
-                                        Faculty of Mathematics and Informatics.</p>');
+                                       '<p>I am currently studying at the' +
+                                        'Faculty of Mathematics and Informatics.</p>');
 
   // Add animation to markers
   homeMarker.addListener('click', () => toggleBounce(homeMarker));
