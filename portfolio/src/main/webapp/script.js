@@ -170,6 +170,13 @@ function createCommentElement(comment) {
   const commentText = document.createElement('div');
   commentText.innerText = comment.text;
 
+  // Set the commentText's color property corresponding to the sentimentScore
+  const commentTextColor = getSentimentColor(comment.sentimentScore);
+  commentText.style.color = 'rgb(' + commentTextColor.r + 
+                            ',' + commentTextColor.g + 
+                            ',' + commentTextColor.b +
+                            ')'; 
+
   const commentDate = document.createElement('span');
   commentDate.innerHTML = `posted on: ${comment.date}`;
   commentDate.className = 'time-span';
@@ -190,6 +197,56 @@ function createCommentElement(comment) {
   commentElement.appendChild(commentText);
   commentElement.appendChild(deleteButtonElement);
   return commentElement;
+}
+
+/**
+ * Returns a color from red to green as an RGB value, corresponding to the sentimentScore.
+ * @param {Number} sentimentScore - float between [-1.0, 1.0]
+ */
+function getSentimentColor(sentimentScore) {
+  // Initialize the colors
+  const red = {r : 255, g : 0, b : 0};
+  const yellow = {r : 210, g : 210, b : 0};
+  const green = {r : 0, g : 255, b : 0};
+
+  // Handle wrong input cases
+  if (sentimentScore < -1) {
+    sentimentScore = -1;
+  }
+  if (sentimentScore > 1) {
+    sentimentScore = 1;
+  }
+
+  // If sentimentScore is in [-1, 0), get an interpolated color from red to yellow.
+  if (sentimentScore < 0) {
+    return interpolateColor(red, yellow, sentimentScore + 1);
+  }
+
+  // Else, if sentimentScore is in [0, 1], get an interpolated color from yellow to green.
+  return interpolateColor(yellow, green, sentimentScore);
+}
+
+/**
+ * Returns an interpolated color between colorStart and colorStop
+ * @param {Object} colorStart - rgb() tuple
+ * @param {Object} colorStop - rgb() tuple
+ * @param {Number} variation - float between [0.0, 1.0]
+ */
+function interpolateColor(colorStart, colorStop, variation) {  
+  // Interpolate every component of the colors
+  return {
+    r : interpolateValue(colorStart.r, colorStop.r, variation),
+    g : interpolateValue(colorStart.g, colorStop.g, variation),
+    b : interpolateValue(colorStart.b, colorStop.b, variation),
+  };
+}
+
+/**
+ * Returns an interpolated value between two values. 
+ * @param {Number} variation - float between [0.0, 1.0]
+ */
+function interpolateValue(startValue, stopValue, variation) {
+  return startValue + variation * (stopValue - startValue);
 }
 
 // Tells the server to delete the comment
