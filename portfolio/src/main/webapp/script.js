@@ -70,6 +70,10 @@ const navbarOffsetTop = navbar.offsetTop - navbarPaddingTop;
 function onWindowScrolled() {
   if (window.pageYOffset >= navbarOffsetTop) {
     navbar.classList.add('fixed-navbar');
+    /**
+     * Add top padding to the content wrapper to prevent sudden quick movement,
+     * as the navbar gets a new position at the top of the page.
+     */
     wrapper.style.paddingTop = navbar.offsetHeight + 'px';
   } else {
     navbar.classList.remove('fixed-navbar');
@@ -97,6 +101,7 @@ function getProjects() {
 
 function getContact() {
   window.location.hash = 'contact';
+  // Use createMap() function as callback to load the map into the map div
   $('#wrapper').load('contact-me.html', createMap);
 }
 
