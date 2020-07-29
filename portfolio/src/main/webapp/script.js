@@ -63,7 +63,7 @@ navbar.appendChild(navbarList);
  */
 window.onscroll = onWindowScrolled;
 
-const navbarPaddingTop = 10;  // QUESTION: $('.navbar-list a')[0].paddingTop appears as undefined
+const navbarPaddingTop = $('.navbar-list a')[0].style.paddingTop;
 // Get the offset position of the navbar
 const navbarOffsetTop = navbar.offsetTop - navbarPaddingTop;
 
