@@ -124,3 +124,11 @@ section header h1 {
 .comment-author {
   font-weight: bold;
 }
+
+/* Google Maps map canvas */
+#map {
+  border: thin solid black;
+  height: 400px;
+  margin: 30px auto 0px;
+  width: 650px;
+}
