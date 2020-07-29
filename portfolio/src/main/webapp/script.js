@@ -97,7 +97,7 @@ function getProjects() {
 
 function getContact() {
   window.location.hash = 'contact';
-  $('#wrapper').load('contact-me.html');
+  $('#wrapper').load('contact-me.html', createMap);
 }
 
 function getGallery() {
