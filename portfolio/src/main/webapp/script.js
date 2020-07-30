@@ -110,7 +110,39 @@ function getGallery() {
 
 function getComments() {
   window.location.hash = 'comments';
-  $('#wrapper').load('comments.html');
+  $('#wrapper').load('comments.html', setDisplayCommentsElements);
+}
+
+/**
+ * Sets values for the CSS 'display' property for elements in the Comments section 
+ * corresponding to the login status of the user.
+ */
+function setDisplayCommentsElements() {
+  // Values of the CSS 'display' property for elements that an authenticated user should see
+  const authenticatedUserElements = {
+    'new-comment-button' : 'inline',
+  };
+
+  // Values of the CSS 'display' property for elements that an anonymous user should see
+  const anonymousUserElements = {
+    'login-alert' : 'inline',
+  };
+
+  // Make a GET request to '/user' to get user information
+  fetch('/user').then(response => response.json()).then((user) => {
+    // Check user's login status
+    if (user.isAuthenticated === true) {
+      displayElements(authenticatedUserElements);
+    } else {
+      displayElements(anonymousUserElements);
+    }
+  });
+}
+
+function displayElements(elements) {
+  for (const [elementId, displayValue] of Object.entries(elements)) {
+    document.getElementById(elementId).style.display = displayValue;
+  }
 }
 
 function getCommentForm() {
