@@ -132,3 +132,13 @@ section header h1 {
 #login-alert {
   display: none;
 }
+
+#logout-link-container {
+  display: none;
+  float: right;
+}
+
+#logout-link {
+  color: black;
+  text-decoration: none;
+}

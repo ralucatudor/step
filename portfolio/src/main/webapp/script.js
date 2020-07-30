@@ -121,6 +121,7 @@ function setDisplayCommentsElements() {
   // Values of the CSS 'display' property for elements that an authenticated user should see
   const authenticatedUserElements = {
     'new-comment-button' : 'inline',
+    'logout-link-container' : 'inline',
   };
 
   // Values of the CSS 'display' property for elements that an anonymous user should see
@@ -132,8 +133,10 @@ function setDisplayCommentsElements() {
   fetch('/user').then(response => response.json()).then((user) => {
     // Check user's login status
     if (user.isAuthenticated === true) {
+      document.getElementById("logout-link").href = user.logoutURL;
       displayElements(authenticatedUserElements);
     } else {
+      document.getElementById("login-link").href = user.loginURL;
       displayElements(anonymousUserElements);
     }
   });
