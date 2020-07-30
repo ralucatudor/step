@@ -124,3 +124,11 @@ section header h1 {
 .comment-author {
   font-weight: bold;
 }
+
+#new-comment-button {
+  display: none;
+}
+
+#login-alert {
+  display: none;
+}

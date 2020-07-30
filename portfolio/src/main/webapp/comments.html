@@ -1,7 +1,11 @@
 <!-- Comments Section static elements -->
 <h1>Comments</h1>
 
-<button onclick="getCommentForm()">Add New Comment</button>
+<div id="login-alert">
+  You need to <a id="login-url">login</a> to post comments!
+</div>
+
+<button onclick="getCommentForm()" id="new-comment-button">Add New Comment</button>
 
 <!-- Form where the user can pick a maximum number of comments to fetch and display -->
 <div id="max-comments-form-container">
