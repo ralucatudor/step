@@ -172,10 +172,8 @@ function createCommentElement(comment) {
 
   // Set the commentText's color property corresponding to the sentimentScore
   const commentTextColor = getSentimentColor(comment.sentimentScore);
-  commentText.style.color = 'rgb(' + commentTextColor.r + 
-                            ',' + commentTextColor.g + 
-                            ',' + commentTextColor.b +
-                            ')'; 
+  commentText.style.color = 
+      `rgb(${commentTextColor.r}, ${commentTextColor.g}, ${commentTextColor.b})`; 
 
   const commentDate = document.createElement('span');
   commentDate.innerHTML = `posted on: ${comment.date}`;
@@ -205,17 +203,12 @@ function createCommentElement(comment) {
  */
 function getSentimentColor(sentimentScore) {
   // Initialize the colors
-  const red = {r : 255, g : 0, b : 0};
-  const yellow = {r : 210, g : 210, b : 0};
-  const green = {r : 0, g : 255, b : 0};
+  const red = {r : 187, g : 68, b : 48};
+  const yellow = {r : 254, g : 198, b : 1};
+  const green = {r : 43, g : 147, b : 72};
 
   // Handle wrong input cases
-  if (sentimentScore < -1) {
-    sentimentScore = -1;
-  }
-  if (sentimentScore > 1) {
-    sentimentScore = 1;
-  }
+  sentimentScore = Math.min(1, Math.max(-1, sentimentScore));
 
   // If sentimentScore is in [-1, 0), get an interpolated color from red to yellow.
   if (sentimentScore < 0) {
