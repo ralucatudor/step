@@ -133,10 +133,10 @@ function setDisplayCommentsElements() {
   fetch('/user').then(response => response.json()).then((user) => {
     // Check user's login status
     if (user.isAuthenticated === true) {
-      document.getElementById("logout-link").href = user.logoutURL;
+      document.getElementById('logout-link').href = user.logoutURL;
       displayElements(authenticatedUserElements);
     } else {
-      document.getElementById("login-link").href = user.loginURL;
+      document.getElementById('login-link').href = user.loginURL;
       displayElements(anonymousUserElements);
     }
   });
