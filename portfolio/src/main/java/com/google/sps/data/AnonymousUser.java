@@ -16,29 +16,17 @@ package com.google.sps.data;
 
 import com.google.sps.data.User;
 
-public final class AuthenticatedUser extends User {
+public final class AnonymousUser extends User {
 
-  private final String email;
-  private final String username;
-  private final String logoutURL;
+  private final String loginURL;
 
-  public AuthenticatedUser(String email, String username, String logoutURL) {
-    super(true);
+  public AnonymousUser(String loginURL) {
+    super(false);
 
-    this.email = email;
-    this.username = username;
-    this.logoutURL = logoutURL;
+    this.loginURL = loginURL;
   }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public String getUsername() {
-      return username;
-  }
-
-  public String getLogoutURL() {
-    return logoutURL;
+  public String getLoginURL() {
+    return loginURL;
   }
 }
