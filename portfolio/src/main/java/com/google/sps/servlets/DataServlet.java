@@ -90,20 +90,25 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Take the input from the POST request 
-    String text = request.getParameter("text-input");
-    String author = request.getParameter("author");
-    // The added date for the comment will be the current date.
-    Date date = new Date();
+    // Check that the user is authenticated before adding the comment
+    UserService userService = UserServiceFactory.getUserService();
 
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("text", text);
-    commentEntity.setProperty("author", author);
-    commentEntity.setProperty("date", date);
+    if (userService.isUserLoggedIn()) {
+      // Take the input from the POST request 
+      String text = request.getParameter("text-input");
+      String author = request.getParameter("author");
+      // The added date for the comment will be the current date.
+      Date date = new Date();
 
-    // Store comment data in the database
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("text", text);
+      commentEntity.setProperty("author", author);
+      commentEntity.setProperty("date", date);
+
+      // Store comment data in the database
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
+    }
 
     // Redirect the user back to the Comments page, which shows all the added comments
     response.sendRedirect("/#comments");
