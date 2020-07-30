@@ -47,7 +47,7 @@ public class UserServlet extends HttpServlet {
 
       user = new AuthenticatedUser(userEmail, userEmail.split("@")[0], logoutURL);
     } else {
-      String urlToRedirectToAfterUserLogsIn = "/";
+      String urlToRedirectToAfterUserLogsIn = "/#comments";
       String loginURL = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
       user = new AnonymousUser(loginURL);

@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
@@ -96,13 +98,13 @@ public class DataServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       // Take the input from the POST request 
       String text = request.getParameter("text-input");
-      String author = request.getParameter("author");
+      String email = userService.getCurrentUser().getEmail();
       // The added date for the comment will be the current date.
       Date date = new Date();
 
       Entity commentEntity = new Entity("Comment");
       commentEntity.setProperty("text", text);
-      commentEntity.setProperty("author", author);
+      commentEntity.setProperty("author", email);
       commentEntity.setProperty("date", date);
 
       // Store comment data in the database
