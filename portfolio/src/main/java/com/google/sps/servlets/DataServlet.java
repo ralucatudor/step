@@ -118,20 +118,20 @@ public class DataServlet extends HttpServlet {
    * Returns a value between -1 and 1, representing how negative or positive text is
    */
   private static float getSentimentScore(String text) throws IOException {
-      // Create a new Document that contains the parameter - text - as content
-      Document doc =
-          Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
+    // Create a new Document that contains the parameter - text - as content
+    Document doc =
+        Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
 
-      LanguageServiceClient languageService = LanguageServiceClient.create();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
 
-      // Pass the Document into the LanguageServiceClient created, 
-      // which returns the analysis in a Sentiment instance
-      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-      // Get the score of the sentiment
-      float score = sentiment.getScore();
+    // Pass the Document into the LanguageServiceClient created, 
+    // which returns the analysis in a Sentiment instance
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    // Get the score of the sentiment
+    float score = sentiment.getScore();
 
-      languageService.close();
+    languageService.close();
 
-      return score;
+    return score;
   }
 }
