@@ -53,7 +53,7 @@ public class UserServlet extends HttpServlet {
 
       // Load user data from the database
       Entity entity = getUser(userId);
-      // Is the user data has not been stored in the database, then create the corresponding entity
+      // If the user data has not been stored in the database, then create the corresponding entity
       if (entity == null) {
         entity = new Entity("User", userId);
         entity.setProperty("id", userId);
