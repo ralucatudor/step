@@ -129,9 +129,7 @@ public class DataServlet extends HttpServlet {
             .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
     PreparedQuery results = datastore.prepare(query);
     Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
+
     String username = (String) entity.getProperty("username");
     return username;
   }
