@@ -32,6 +32,9 @@ window.onload = function() {
   }
 }
 
+// Get content wrapper
+const wrapper = document.getElementById('wrapper');
+
 // Add Navigation Bar
 const navbar = document.getElementById('navigation-bar');
 
@@ -54,6 +57,30 @@ sections.forEach((sectionName) => {
 
 navbar.appendChild(navbarList);
 
+/**
+ * Callback when the user scrolls the page: add 'fixed-navbar' class to navbar when the top
+ * of the navbar is reached. Remove 'fixed-navbar' class when scrolling back to the top.
+ */
+window.onscroll = onWindowScrolled;
+
+const navbarPaddingTop = $('.navbar-list a')[0].style.paddingTop;
+// Get the offset position of the navbar
+const navbarOffsetTop = navbar.offsetTop - navbarPaddingTop;
+
+function onWindowScrolled() {
+  if (window.pageYOffset >= navbarOffsetTop) {
+    navbar.classList.add('fixed-navbar');
+    /**
+     * Add top padding to the content wrapper to prevent sudden quick movement,
+     * as the navbar gets a new position at the top of the page.
+     */
+    wrapper.style.paddingTop = navbar.offsetHeight + 'px';
+  } else {
+    navbar.classList.remove('fixed-navbar');
+    wrapper.style.paddingTop = 0;
+  }
+}
+
 // Fetches a greeting from the server and adds it to the DOM.
 function getGreeting() {
   fetch('/greeting').then(response => response.text()).then((greeting) => {
@@ -74,13 +101,13 @@ function getProjects() {
 
 function getContact() {
   window.location.hash = 'contact';
-  $('#wrapper').load('contact-me.html');
+  // Use createMap() function as callback to load the map into the map div
+  $('#wrapper').load('contact-me.html', createMap);
 }
 
 function getGallery() {
   window.location.hash = 'gallery';
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.textContent = '';
 
   const galleryTitle = document.createElement('h1');
@@ -154,7 +181,6 @@ function getCommentsFromServer() {
       warningContainer.appendChild(warning);
     });
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.appendChild(commentsContainer);
 }
 
