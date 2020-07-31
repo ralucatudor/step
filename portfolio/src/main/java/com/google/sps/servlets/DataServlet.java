@@ -97,12 +97,12 @@ public class DataServlet extends HttpServlet {
 
     if (userService.isUserLoggedIn()) {
       // Take the comment input from the POST request 
-      String commentText = request.getParameter("text-input");
+      String text = request.getParameter("comment-text");
       
       String email = userService.getCurrentUser().getEmail();
 
       Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("text", commentText);
+      commentEntity.setProperty("text", text);
       commentEntity.setProperty("author", email);
       // The added date for the comment will be the current date.
       commentEntity.setProperty("date", new Date());
