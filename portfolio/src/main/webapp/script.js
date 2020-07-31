@@ -136,9 +136,15 @@ function setDisplayCommentsElements() {
     if (user.isAuthenticated) {
       document.getElementById('logout-link').href = user.logoutURL;
       displayElements(authenticatedUserElements);
+
+      document.getElementById('login-logout-information').innerHTML = 
+          `You are successfully authenticated using the email address ${user.email}. ` +
+          `Please note that you will be logged out of your Google account when clicking "Logout"!`;
     } else {
       document.getElementById('login-link').href = user.loginURL;
       displayElements(anonymousUserElements);
+
+      document.getElementById('login-logout-information').innerHTML = ``;
     }
   });
 }
