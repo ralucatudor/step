@@ -122,15 +122,15 @@ public class DataServlet extends HttpServlet {
     Document doc =
         Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
 
-    LanguageServiceClient languageService = LanguageServiceClient.create();
+    LanguageServiceClient languageClient = LanguageServiceClient.create();
 
     // Pass the Document into the LanguageServiceClient created, 
     // which returns the analysis in a Sentiment instance
-    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    Sentiment sentiment = languageClient.analyzeSentiment(doc).getDocumentSentiment();
     // Get the score of the sentiment
     float score = sentiment.getScore();
 
-    languageService.close();
+    languageClient.close();
 
     return score;
   }
