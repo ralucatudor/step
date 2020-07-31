@@ -19,16 +19,22 @@ import com.google.sps.data.User;
 /** Class containing information about a user who is logged in */
 public final class AuthenticatedUser extends User {
 
+  private final String id;
   private final String email;
   private final String username;
   private final String logoutURL;
 
-  public AuthenticatedUser(String email, String username, String logoutURL) {
+  public AuthenticatedUser(String id, String email, String username, String logoutURL) {
     super(true);
 
+    this.id = id;
     this.email = email;
     this.username = username;
     this.logoutURL = logoutURL;
+  }
+
+  public String getId() {
+    return id;
   }
 
   public String getEmail() {
