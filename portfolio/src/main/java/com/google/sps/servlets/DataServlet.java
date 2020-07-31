@@ -75,8 +75,9 @@ public class DataServlet extends HttpServlet {
       Date date = (Date) entity.getProperty("date");
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
+      String email = (String) entity.getProperty("email");
 
-      Comment comment = Comment.create(id, date, text, author);
+      Comment comment = Comment.create(id, date, text, author, email);
       comments.add(comment);
     }
 
@@ -99,11 +100,13 @@ public class DataServlet extends HttpServlet {
       // Take the comment input from the POST request 
       String text = request.getParameter("comment-text");
       
+      String userId = userService.getCurrentUser().getUserId();
       String email = userService.getCurrentUser().getEmail();
 
       Entity commentEntity = new Entity("Comment");
       commentEntity.setProperty("text", text);
-      commentEntity.setProperty("author", email);
+      commentEntity.setProperty("author", getUsername(userId));
+      commentEntity.setProperty("email", email);
       // The added date for the comment will be the current date.
       commentEntity.setProperty("date", new Date());
 
@@ -114,5 +117,22 @@ public class DataServlet extends HttpServlet {
 
     // Redirect the user back to the Comments page, which shows all the added comments
     response.sendRedirect("/#comments");
+  }
+
+  /**
+   * Returns the username from the database based on the user's ID
+   */
+  private String getUsername(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("User")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return "";
+    }
+    String username = (String) entity.getProperty("username");
+    return username;
   }
 }

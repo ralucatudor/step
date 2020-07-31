@@ -142,3 +142,7 @@ section header h1 {
   color: black;
   text-decoration: none;
 }
+
+#change-username-button {
+  display: none;
+}

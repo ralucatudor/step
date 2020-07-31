@@ -122,6 +122,7 @@ function setDisplayCommentsElements() {
   const authenticatedUserElements = {
     'new-comment-button' : 'inline',
     'logout-link-container' : 'inline',
+    'change-username-button' : 'inline',
   };
 
   // Values of the CSS 'display' property for elements that an Anonymous User should see
@@ -154,6 +155,10 @@ function displayElements(elements) {
 
 function getCommentForm() {
   $('#wrapper').load('comment-form.html');
+}
+
+function getUsernameForm() {
+  $('#wrapper').load('username-form.html');
 }
 
 function getCommentsFromServer() {

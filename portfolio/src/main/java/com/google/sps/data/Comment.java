@@ -21,12 +21,13 @@ import java.util.Date;
 @AutoValue
 public abstract class Comment {
 
-  public static Comment create(long id, Date date, String text, String author) {
-    return new AutoValue_Comment(id, date, text, author);
+  public static Comment create(long id, Date date, String text, String author, String email) {
+    return new AutoValue_Comment(id, date, text, author, email);
   }
 
   public abstract long getId();
   public abstract Date getDate();
   public abstract String getText();
   public abstract String getAuthor();
+  public abstract String getEmail();
 }
