@@ -58,7 +58,7 @@ public class UserServlet extends HttpServlet {
         entity = new Entity("User", userId);
         entity.setProperty("id", userId);
         entity.setProperty("email", userEmail);
-        // Bu default, set the username to the email address without the domain 
+        // By default, set the username to the email address without the domain 
         entity.setProperty("username", (userEmail.split("@")[0]));
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
