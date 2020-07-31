@@ -14,6 +14,7 @@
 
 package com.google.sps.data;
 
+/** Abstract class containing user information */
 public abstract class User {
 
   // Hold the login status of the user

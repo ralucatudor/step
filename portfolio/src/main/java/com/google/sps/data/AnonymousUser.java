@@ -16,6 +16,7 @@ package com.google.sps.data;
 
 import com.google.sps.data.User;
 
+/** Class containing information about a user who is not logged in */
 public final class AnonymousUser extends User {
 
   private final String loginURL;
