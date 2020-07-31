@@ -31,8 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserServlet extends HttpServlet {
 
   /**
-   * Method that handles the GET requests to "/user" path
-   * Returns a JSON object describing the current user
+   * Returns a JSON object with the user information
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

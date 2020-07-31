@@ -118,13 +118,13 @@ function getComments() {
  * corresponding to the login status of the user.
  */
 function setDisplayCommentsElements() {
-  // Values of the CSS 'display' property for elements that an authenticated user should see
+  // Values of the CSS 'display' property for elements that an Authenticated User should see
   const authenticatedUserElements = {
     'new-comment-button' : 'inline',
     'logout-link-container' : 'inline',
   };
 
-  // Values of the CSS 'display' property for elements that an anonymous user should see
+  // Values of the CSS 'display' property for elements that an Anonymous User should see
   const anonymousUserElements = {
     'login-alert' : 'inline',
   };
@@ -141,7 +141,10 @@ function setDisplayCommentsElements() {
     }
   });
 }
-
+/**
+ * Manipulates DOM to set the value for the 'display' property of given elements
+ * @param {Object} elements - elementId : displayValue pairs
+ */
 function displayElements(elements) {
   for (const [elementId, displayValue] of Object.entries(elements)) {
     document.getElementById(elementId).style.display = displayValue;
