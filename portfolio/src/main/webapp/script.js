@@ -132,7 +132,7 @@ function setDisplayCommentsElements() {
   // Make a GET request to '/user' to get user information
   fetch('/user').then(response => response.json()).then((user) => {
     // Check user's login status
-    if (user.isAuthenticated === true) {
+    if (user.isAuthenticated) {
       document.getElementById('logout-link').href = user.logoutURL;
       displayElements(authenticatedUserElements);
     } else {
@@ -141,6 +141,7 @@ function setDisplayCommentsElements() {
     }
   });
 }
+
 /**
  * Manipulates DOM to set the value for the 'display' property of given elements
  * @param {Object} elements - elementId : displayValue pairs
