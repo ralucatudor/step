@@ -134,6 +134,8 @@ public class UserServlet extends HttpServlet {
         // Redirect the user back to the Comments page, which shows all the added comments
         response.sendRedirect("/#comments");
       }
+    } else {
+      response.sendError(400, "the user must be authenticated to change username");
     }
   }
 }
