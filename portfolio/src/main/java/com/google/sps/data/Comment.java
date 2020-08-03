@@ -30,8 +30,8 @@ public abstract class Comment {
    * @param author the username of the user who added the comment
    * @param email  the email of the user who added the comment
    */
-  public static Comment create(long id, Date date, String text, String author, String email) {
-    return new AutoValue_Comment(id, date, text, author, email);
+  public static Comment create(long id, Date date, String text, String author, String email, Double sentimentScore) {
+    return new AutoValue_Comment(id, date, text, author, email, sentimentScore);
   }
 
   public abstract long getId();
@@ -39,4 +39,5 @@ public abstract class Comment {
   public abstract String getText();
   public abstract String getAuthor();
   public abstract String getEmail();
+  public abstract Double getSentimentScore();
 }

@@ -51,21 +51,19 @@ section header h1 {
 
 /* Navigation Bar */
 .navbar-list {
-  background-color: #495057;
   font-size: 20px;
   list-style-type: none;	/* remove the bullets */
   margin: 0;
-  padding: 0;
 }
 
 .navbar-list li {
-  border: thin solid white;
   display: inline;	/* Create a horizontal navbar */
 }
 
 .navbar-list a {
+  background-color: #495057;
   color: #F8F9FA;
-  padding: 0px 20px;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
 }
@@ -75,9 +73,10 @@ section header h1 {
   color: #F8F9FA;
 }
 
-.active-nav-section {
-  background-color: #ADB5BD;
-  color: #212529;
+.fixed-navbar {
+  position: fixed;
+  top: 10px;
+  width: 100%;
 }
 
 /* Image Gallery */
@@ -145,4 +144,12 @@ section header h1 {
 
 #change-username-button {
   display: none;
+}
+
+/* Google Maps map canvas */
+#map {
+  border: thin solid black;
+  height: 400px;
+  margin: 30px auto 0px;
+  width: 650px;
 }

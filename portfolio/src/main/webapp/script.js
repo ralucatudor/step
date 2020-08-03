@@ -32,6 +32,9 @@ window.onload = function() {
   }
 }
 
+// Get content wrapper
+const wrapper = document.getElementById('wrapper');
+
 // Add Navigation Bar
 const navbar = document.getElementById('navigation-bar');
 
@@ -54,6 +57,30 @@ sections.forEach((sectionName) => {
 
 navbar.appendChild(navbarList);
 
+/**
+ * Callback when the user scrolls the page: add 'fixed-navbar' class to navbar when the top
+ * of the navbar is reached. Remove 'fixed-navbar' class when scrolling back to the top.
+ */
+window.onscroll = onWindowScrolled;
+
+const navbarPaddingTop = $('.navbar-list a')[0].style.paddingTop;
+// Get the offset position of the navbar
+const navbarOffsetTop = navbar.offsetTop - navbarPaddingTop;
+
+function onWindowScrolled() {
+  if (window.pageYOffset >= navbarOffsetTop) {
+    navbar.classList.add('fixed-navbar');
+    /**
+     * Add top padding to the content wrapper to prevent sudden quick movement,
+     * as the navbar gets a new position at the top of the page.
+     */
+    wrapper.style.paddingTop = navbar.offsetHeight + 'px';
+  } else {
+    navbar.classList.remove('fixed-navbar');
+    wrapper.style.paddingTop = 0;
+  }
+}
+
 // Fetches a greeting from the server and adds it to the DOM.
 function getGreeting() {
   fetch('/greeting').then(response => response.text()).then((greeting) => {
@@ -74,13 +101,13 @@ function getProjects() {
 
 function getContact() {
   window.location.hash = 'contact';
-  $('#wrapper').load('contact-me.html');
+  // Use createMap() function as callback to load the map into the map div
+  $('#wrapper').load('contact-me.html', createMap);
 }
 
 function getGallery() {
   window.location.hash = 'gallery';
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.textContent = '';
 
   const galleryTitle = document.createElement('h1');
@@ -204,7 +231,6 @@ function getCommentsFromServer() {
       warningContainer.appendChild(warning);
     });
 
-  const wrapper = document.getElementById('wrapper');
   wrapper.appendChild(commentsContainer);
 }
 
@@ -219,6 +245,11 @@ function createCommentElement(comment) {
 
   const commentText = document.createElement('div');
   commentText.innerText = comment.text;
+
+  // Set the commentText's color property corresponding to the sentimentScore
+  const commentTextColor = getSentimentColor(comment.sentimentScore);
+  commentText.style.color = 
+      `rgb(${commentTextColor.r}, ${commentTextColor.g}, ${commentTextColor.b})`; 
 
   const commentDate = document.createElement('span');
   commentDate.innerHTML = `posted on: ${comment.date}`;
@@ -240,6 +271,51 @@ function createCommentElement(comment) {
   commentElement.appendChild(commentText);
   commentElement.appendChild(deleteButtonElement);
   return commentElement;
+}
+
+/**
+ * Returns a color from red to green as an RGB value, corresponding to the sentimentScore.
+ * @param {Number} sentimentScore - float between [-1.0, 1.0]
+ */
+function getSentimentColor(sentimentScore) {
+  // Initialize the colors
+  const red = {r : 187, g : 68, b : 48};
+  const yellow = {r : 254, g : 198, b : 1};
+  const green = {r : 43, g : 147, b : 72};
+
+  // Handle wrong input cases
+  sentimentScore = Math.min(1, Math.max(-1, sentimentScore));
+
+  // If sentimentScore is in [-1, 0), get an interpolated color from red to yellow.
+  if (sentimentScore < 0) {
+    return interpolateColor(red, yellow, sentimentScore + 1);
+  }
+
+  // Else, if sentimentScore is in [0, 1], get an interpolated color from yellow to green.
+  return interpolateColor(yellow, green, sentimentScore);
+}
+
+/**
+ * Returns an interpolated color between colorStart and colorStop
+ * @param {Object} colorStart - rgb() tuple
+ * @param {Object} colorStop - rgb() tuple
+ * @param {Number} variation - float between [0.0, 1.0]
+ */
+function interpolateColor(colorStart, colorStop, variation) {  
+  // Interpolate every component of the colors
+  return {
+    r : interpolateValue(colorStart.r, colorStop.r, variation),
+    g : interpolateValue(colorStart.g, colorStop.g, variation),
+    b : interpolateValue(colorStart.b, colorStop.b, variation),
+  };
+}
+
+/**
+ * Returns an interpolated value between two values. 
+ * @param {Number} variation - float between [0.0, 1.0]
+ */
+function interpolateValue(startValue, stopValue, variation) {
+  return startValue + variation * (stopValue - startValue);
 }
 
 // Tells the server to delete the comment

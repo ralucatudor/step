@@ -23,6 +23,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
@@ -76,8 +79,9 @@ public class DataServlet extends HttpServlet {
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
       String email = (String) entity.getProperty("email");
+      Double sentimentScore = (Double) entity.getProperty("sentimentScore");
 
-      Comment comment = Comment.create(id, date, text, author, email);
+      Comment comment = Comment.create(id, date, text, author, email, sentimentScore);
       comments.add(comment);
     }
 
@@ -109,6 +113,8 @@ public class DataServlet extends HttpServlet {
       commentEntity.setProperty("email", email);
       // The added date for the comment will be the current date.
       commentEntity.setProperty("date", new Date());
+      
+      commentEntity.setProperty("sentimentScore", getSentimentScore(text));
 
       // Store comment data in the database
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -132,5 +138,26 @@ public class DataServlet extends HttpServlet {
 
     String username = (String) entity.getProperty("username");
     return username;
+  }
+  
+  /**
+   * Returns a value between -1 and 1, representing how negative or positive text is
+   */
+  private static float getSentimentScore(String text) throws IOException {
+    // Create a new Document that contains the parameter - text - as content
+    Document doc =
+        Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
+
+    LanguageServiceClient languageClient = LanguageServiceClient.create();
+
+    // Pass the Document into the LanguageServiceClient created, 
+    // which returns the analysis in a Sentiment instance
+    Sentiment sentiment = languageClient.analyzeSentiment(doc).getDocumentSentiment();
+    // Get the score of the sentiment
+    float score = sentiment.getScore();
+
+    languageClient.close();
+
+    return score;
   }
 }
