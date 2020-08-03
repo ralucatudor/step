@@ -55,14 +55,7 @@ public class UserServlet extends HttpServlet {
       Entity entity = getUser(userId);
       // If the user data has not been stored in the database, then create the corresponding entity
       if (entity == null) {
-        entity = new Entity("User", userId);
-        entity.setProperty("id", userId);
-        entity.setProperty("email", userEmail);
-        // By default, set the username to the email address without the domain 
-        entity.setProperty("username", (userEmail.split("@")[0]));
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(entity);
+        entity = getNewUserEntity(userId, userEmail);
       }
     
       user = new AuthenticatedUser(userId, 
@@ -88,7 +81,7 @@ public class UserServlet extends HttpServlet {
   /**
    * Returns the User entity from the database based on the user's ID
    */
-  public Entity getUser(String id) {
+  private Entity getUser(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("User")
@@ -100,9 +93,27 @@ public class UserServlet extends HttpServlet {
   }
 
   /**
+   * Creates a new User entity based on the given arguments,
+   * stores it in the database and returns it.
+   */
+  private Entity getNewUserEntity(String userId, String userEmail) {
+    Entity entity = new Entity("User", userId);
+    entity.setProperty("id", userId);
+    entity.setProperty("email", userEmail);
+    // By default, set the username to the email address without the domain 
+    entity.setProperty("username", (userEmail.split("@")[0]));
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(entity);
+
+    return entity;
+  }
+
+  /**
    * Handles the POST requests to "/user" path.
    * Changes the username in the database with the newly submitted username.
    */
+  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
 

@@ -21,6 +21,15 @@ import java.util.Date;
 @AutoValue
 public abstract class Comment {
 
+  /** 
+   * Class constructor.
+   *
+   * @param id     the id of the Comment Entity held by Datastore
+   * @param date   the date when the comment was added by the user
+   * @param text   the comment message
+   * @param author the username of the user who added the comment
+   * @param email  the email of the user who added the comment
+   */
   public static Comment create(long id, Date date, String text, String author, String email) {
     return new AutoValue_Comment(id, date, text, author, email);
   }
