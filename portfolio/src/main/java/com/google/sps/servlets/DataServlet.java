@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
@@ -76,9 +78,10 @@ public class DataServlet extends HttpServlet {
       Date date = (Date) entity.getProperty("date");
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
+      String email = (String) entity.getProperty("email");
       Double sentimentScore = (Double) entity.getProperty("sentimentScore");
 
-      Comment comment = Comment.create(id, date, text, author, sentimentScore);
+      Comment comment = Comment.create(id, date, text, author, email, sentimentScore);
       comments.add(comment);
     }
 
@@ -94,26 +97,49 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Take the input from the POST request 
-    String text = request.getParameter("text-input");
-    String author = request.getParameter("author");
-    // The added date for the comment will be the current date.
-    Date date = new Date();
+    // Check that the user is authenticated before adding the comment
+    UserService userService = UserServiceFactory.getUserService();
 
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("text", text);
-    commentEntity.setProperty("author", author);
-    commentEntity.setProperty("date", date);
-    commentEntity.setProperty("sentimentScore", getSentimentScore(text));
+    if (userService.isUserLoggedIn()) {
+      // Take the comment input from the POST request 
+      String text = request.getParameter("comment-text");
+      
+      String userId = userService.getCurrentUser().getUserId();
+      String email = userService.getCurrentUser().getEmail();
 
-    // Store comment data in the database
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("text", text);
+      commentEntity.setProperty("author", getUsername(userId));
+      commentEntity.setProperty("email", email);
+      // The added date for the comment will be the current date.
+      commentEntity.setProperty("date", new Date());
+      
+      commentEntity.setProperty("sentimentScore", getSentimentScore(text));
+
+      // Store comment data in the database
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
+    }
 
     // Redirect the user back to the Comments page, which shows all the added comments
     response.sendRedirect("/#comments");
   }
 
+  /**
+   * Returns the username from the database based on the user's ID
+   */
+  private String getUsername(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("User")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+
+    String username = (String) entity.getProperty("username");
+    return username;
+  }
+  
   /**
    * Returns a value between -1 and 1, representing how negative or positive text is
    */

@@ -137,11 +137,61 @@ function getGallery() {
 
 function getComments() {
   window.location.hash = 'comments';
-  $('#wrapper').load('comments.html');
+  $('#wrapper').load('comments.html', setDisplayCommentsElements);
+}
+
+/**
+ * Sets values for the CSS 'display' property for elements in the Comments section 
+ * corresponding to the login status of the user.
+ */
+function setDisplayCommentsElements() {
+  // Values of the CSS 'display' property for elements that an Authenticated User should see
+  const authenticatedUserElements = {
+    'new-comment-button' : 'inline',
+    'logout-link-container' : 'inline',
+    'change-username-button' : 'inline',
+  };
+
+  // Values of the CSS 'display' property for elements that an Anonymous User should see
+  const anonymousUserElements = {
+    'login-alert' : 'inline',
+  };
+
+  // Make a GET request to '/user' to get user information
+  fetch('/user').then(response => response.json()).then((user) => {
+    // Check user's login status
+    if (user.isAuthenticated) {
+      document.getElementById('logout-link').href = user.logoutURL;
+      displayElements(authenticatedUserElements);
+
+      document.getElementById('login-logout-information').innerHTML = 
+          `You are successfully authenticated using the email address ${user.email}. ` +
+          `Please note that you will be logged out of your Google account when clicking "Logout"!`;
+    } else {
+      document.getElementById('login-link').href = user.loginURL;
+      displayElements(anonymousUserElements);
+
+      document.getElementById('login-logout-information').innerHTML = ``;
+    }
+  });
+}
+
+/**
+ * Manipulates DOM to set the value for the 'display' property of given elements
+ * @param {Object} elements - elementId : displayValue pairs
+ */
+function displayElements(elements) {
+  for (const [elementId, displayValue] of Object.entries(elements)) {
+    document.getElementById(elementId).style.display = displayValue;
+  }
 }
 
 function getCommentForm() {
   $('#wrapper').load('comment-form.html');
+}
+
+function getUsernameForm() {
+  $('#wrapper').load('username-form.html');
 }
 
 function getCommentsFromServer() {

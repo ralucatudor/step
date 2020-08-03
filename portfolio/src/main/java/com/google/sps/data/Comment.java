@@ -21,13 +21,23 @@ import java.util.Date;
 @AutoValue
 public abstract class Comment {
 
-  public static Comment create(long id, Date date, String text, String author, Double sentimentScore) {
-    return new AutoValue_Comment(id, date, text, author, sentimentScore);
+  /** 
+   * Class constructor.
+   *
+   * @param id     the id of the Comment Entity held by Datastore
+   * @param date   the date when the comment was added by the user
+   * @param text   the comment message
+   * @param author the username of the user who added the comment
+   * @param email  the email of the user who added the comment
+   */
+  public static Comment create(long id, Date date, String text, String author, String email, Double sentimentScore) {
+    return new AutoValue_Comment(id, date, text, author, email, sentimentScore);
   }
 
   public abstract long getId();
   public abstract Date getDate();
   public abstract String getText();
   public abstract String getAuthor();
+  public abstract String getEmail();
   public abstract Double getSentimentScore();
 }

@@ -1,7 +1,19 @@
 <!-- Comments Section static elements -->
 <h1>Comments</h1>
 
-<button onclick="getCommentForm()">Add New Comment</button>
+<div id="login-alert">
+  You need to <a id="login-link">login</a> to post comments!
+</div>
+
+<div id="login-logout-information"></div><br>
+
+<span id="logout-link-container">
+  <a id="logout-link">Logout</a>
+</span>
+
+<button onclick="getUsernameForm()" id="change-username-button">Change Username</button>
+
+<button onclick="getCommentForm()" id="new-comment-button">Add New Comment</button>
 
 <!-- Form where the user can pick a maximum number of comments to fetch and display -->
 <div id="max-comments-form-container">
@@ -13,7 +25,8 @@
   
   <p>
     Don't forget to click the "Load comments" button to update the number of comments displayed. 
-    Clicking the button without any number input will show all the comments.
+    Clicking the button without any number input will show all the comments. Note that the date
+    and time when a comment was submitted corresponds to UTC - Coordinated Universal Time.
   </p>
   <button type="button" onclick="getCommentsFromServer()">Load comments</button>    
 <div>
