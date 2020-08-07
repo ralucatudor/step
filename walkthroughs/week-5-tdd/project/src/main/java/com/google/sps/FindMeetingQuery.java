@@ -110,12 +110,24 @@ public final class FindMeetingQuery {
                                                          long newMeetingDuration) {
     // Consider the cases when there are no constraints for the new meeting.
     if (occupiedTimeRanges.isEmpty()) {
-      if (checkTimeRangeDuration(TimeRange.WHOLE_DAY.duration(), newMeetingDuration)) {
+      if (newMeetingDuration <= TimeRange.WHOLE_DAY.duration()) {
         return Arrays.asList(TimeRange.WHOLE_DAY);
       } else {
         return Collections.emptyList();
       }
     }
+
+    // Add two dummy time ranges {@code beforeStartOfDay} and {@code afterEndOfDay}. This way, there 
+    // is no need to check outside the loop for empty time slot before the first occupied time range.
+    // Same for checking after the last occupied time range.
+    TimeRange beforeStartOfDay = 
+          TimeRange.fromStartEnd(TimeRange.START_OF_DAY - 1, TimeRange.START_OF_DAY, false);
+    
+    TimeRange afterEndOfDay = 
+        TimeRange.fromStartEnd(TimeRange.END_OF_DAY + 1, TimeRange.END_OF_DAY + 2, false);
+
+    occupiedTimeRanges.add(beforeStartOfDay);
+    occupiedTimeRanges.add(afterEndOfDay);
 
     // Sort {@code occupiedTimeRanges} in ascending order by start.
     Collections.sort(occupiedTimeRanges, TimeRange.ORDER_BY_START);
@@ -125,16 +137,6 @@ public final class FindMeetingQuery {
 
     Iterator<TimeRange> occupiedTimeRangesIterator = occupiedTimeRanges.iterator();
     TimeRange currentOccupiedTimeRange = occupiedTimeRangesIterator.next();
-
-    // Check for empty time slot before the first occupied time range
-    if (currentOccupiedTimeRange.start() > TimeRange.START_OF_DAY) {
-      TimeRange newTimeRange = 
-          TimeRange.fromStartEnd(TimeRange.START_OF_DAY, currentOccupiedTimeRange.start(), false);
-
-      if (checkTimeRangeDuration(newTimeRange.duration(), newMeetingDuration)) {
-        newMeetingTimeRanges.add(newTimeRange);
-      }
-    }
 
     int previousOccupiedTimeRangeEnd = currentOccupiedTimeRange.end();
 
@@ -146,7 +148,7 @@ public final class FindMeetingQuery {
         TimeRange newTimeRange = 
             TimeRange.fromStartEnd(previousOccupiedTimeRangeEnd, currentOccupiedTimeRange.start(), false);
 
-        if (checkTimeRangeDuration(newTimeRange.duration(), newMeetingDuration)) {
+        if (newTimeRange.duration() >= newMeetingDuration) {
           newMeetingTimeRanges.add(newTimeRange);
         }
       }
@@ -156,23 +158,6 @@ public final class FindMeetingQuery {
       }
     }
 
-    // Check for empty time slot after the last occupied time range and until the end of the day
-    if (previousOccupiedTimeRangeEnd < TimeRange.END_OF_DAY) {
-      TimeRange newTimeRange = 
-          TimeRange.fromStartEnd(previousOccupiedTimeRangeEnd, TimeRange.END_OF_DAY, true);
-      
-      if (checkTimeRangeDuration(newTimeRange.duration(), newMeetingDuration)) {
-        newMeetingTimeRanges.add(newTimeRange);
-      }
-    }
-
     return newMeetingTimeRanges;
-  }
-
-  /**
-   * Returns whether {@code duration} has at least {@code minimumDuration} minutes.
-   */
-  private static boolean checkTimeRangeDuration(long duration, long minimumDuration) {
-    return (duration >= minimumDuration);
   }
 }
