@@ -74,6 +74,7 @@ public final class FindMeetingQuery {
       .stream()
       .filter(event -> hasCommonAttendees(event, attendees))
       .map(event -> event.getWhen())
+      .filter(timeRange -> checkIsWithinTheDay(timeRange))
       .collect(Collectors.toList());
     
     return getNewMeetingTimeRanges(occupiedTimeRanges, duration);
@@ -93,6 +94,12 @@ public final class FindMeetingQuery {
     return false;
   }
 
+  /**
+   * Returns whether the {@code timeRange} is within the day.
+   */
+  private static boolean checkIsWithinTheDay(TimeRange timeRange) {
+    return (timeRange.WHOLE_DAY.contains(timeRange));
+  }
 
   /**
    * Returns the times slots when a new meeting taking {@code newMeetingDuration} minutes could happen 
@@ -169,3 +176,9 @@ public final class FindMeetingQuery {
     return (duration >= minimumDuration);
   }
 }
+
+/*
+The "Check for empty time slot before the first occupied time range" will still work. My logic is the same as yours. But I still have to do the check for an empty time range "in the beginning of the day", before the first existing event starts and this is what I'm doing there.
+
+What I hadn't yet added, but will add, is checking whether the time range is within the day when Ioop all the spaces between time ranges
+*/
