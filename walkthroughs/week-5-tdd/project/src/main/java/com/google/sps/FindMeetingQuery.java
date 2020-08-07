@@ -176,9 +176,3 @@ public final class FindMeetingQuery {
     return (duration >= minimumDuration);
   }
 }
-
-/*
-The "Check for empty time slot before the first occupied time range" will still work. My logic is the same as yours. But I still have to do the check for an empty time range "in the beginning of the day", before the first existing event starts and this is what I'm doing there.
-
-What I hadn't yet added, but will add, is checking whether the time range is within the day when Ioop all the spaces between time ranges
-*/
