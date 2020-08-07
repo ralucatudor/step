@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 /** Class responsible for scheduling a meeting between multiple people. */
 public final class FindMeetingQuery {
   /**
-   * Return the times when a new meeting could happen in a day.
+   * Return the time ranges when a new meeting could happen in a day.
    * 
    * @param events  The collection of all known events in that day. Each event has:
    *                a name, a time range and a collection of attendees.
@@ -40,7 +40,7 @@ public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Set<Event> eventsSet = new HashSet<>(events);
 
-    // Get the people that should be attending this new meeting.
+    // Get the mandatory attendees of the new meeting.
     Set<String> mandatoryAttendees = new HashSet<>(request.getAttendees());
     
     // Get both mandatory and optional attendees.
@@ -72,23 +72,20 @@ public final class FindMeetingQuery {
     // (because for a particular time slot to work, all attendees must be free to attend the new meeting).
     List<TimeRange> occupiedTimeRanges = events
       .stream()
-      .filter(event -> FindMeetingQuery.hasCommonAttendees(event, attendees))
+      .filter(event -> hasCommonAttendees(event, attendees))
       .map(event -> event.getWhen())
-      .sorted(TimeRange.ORDER_BY_START)
       .collect(Collectors.toList());
     
-    List<TimeRange> result = getNewMeetingTimeRanges(occupiedTimeRanges, duration);
-
-    return result;
+    return getNewMeetingTimeRanges(occupiedTimeRanges, duration);
   }
 
   /**
-   * Returns whether the {@code event} has at least one common attendee as the {@code requestedAttendees}.
+   * Returns whether the {@code event} has at least one common attendee as the {@code attendees}.
    */
-  private static boolean hasCommonAttendees(Event event, Set<String> requestedAttendees) {
+  private static boolean hasCommonAttendees(Event event, Set<String> attendees) {
     Set<String> eventAttendees = new HashSet<>(event.getAttendees());
-    for (String requestedAttendee : requestedAttendees) {
-      if (eventAttendees.contains(requestedAttendee)) {
+    for (String attendee : attendees) {
+      if (eventAttendees.contains(attendee)) {
         return true;
       }
     }
@@ -99,19 +96,22 @@ public final class FindMeetingQuery {
 
   /**
    * Returns the times slots when a new meeting taking {@code newMeetingDuration} minutes could happen 
-   * in a day, considering the {@code occupiedTimeRanges}, which are sorted in ascending order by start.
+   * in a day, considering the {@code occupiedTimeRanges}.
    * It uses a Greedy algorithm.
    */
   private static List<TimeRange> getNewMeetingTimeRanges(List<TimeRange> occupiedTimeRanges, 
                                                          long newMeetingDuration) {
     // Consider the cases when there are no constraints for the new meeting.
     if (occupiedTimeRanges.isEmpty()) {
-      if (newMeetingDuration <= TimeRange.WHOLE_DAY.duration()) {
+      if (checkTimeRangeDuration(TimeRange.WHOLE_DAY.duration(), newMeetingDuration)) {
         return Arrays.asList(TimeRange.WHOLE_DAY);
       } else {
         return Collections.emptyList();
       }
     }
+
+    // Sort {@code occupiedTimeRanges} in ascending order by start.
+    Collections.sort(occupiedTimeRanges, TimeRange.ORDER_BY_START);
 
     // Init the time slots list when the new meeting can take place. 
     List<TimeRange> newMeetingTimeRanges = new ArrayList<>();
@@ -124,7 +124,7 @@ public final class FindMeetingQuery {
       TimeRange newTimeRange = 
           TimeRange.fromStartEnd(TimeRange.START_OF_DAY, currentOccupiedTimeRange.start(), false);
 
-      if (newTimeRange.duration() >= newMeetingDuration) {
+      if (checkTimeRangeDuration(newTimeRange.duration(), newMeetingDuration)) {
         newMeetingTimeRanges.add(newTimeRange);
       }
     }
@@ -139,7 +139,7 @@ public final class FindMeetingQuery {
         TimeRange newTimeRange = 
             TimeRange.fromStartEnd(previousOccupiedTimeRangeEnd, currentOccupiedTimeRange.start(), false);
 
-        if (newTimeRange.duration() >= newMeetingDuration) {
+        if (checkTimeRangeDuration(newTimeRange.duration(), newMeetingDuration)) {
           newMeetingTimeRanges.add(newTimeRange);
         }
       }
@@ -154,11 +154,18 @@ public final class FindMeetingQuery {
       TimeRange newTimeRange = 
           TimeRange.fromStartEnd(previousOccupiedTimeRangeEnd, TimeRange.END_OF_DAY, true);
       
-      if (newTimeRange.duration() >= newMeetingDuration) {
+      if (checkTimeRangeDuration(newTimeRange.duration(), newMeetingDuration)) {
         newMeetingTimeRanges.add(newTimeRange);
       }
     }
 
     return newMeetingTimeRanges;
+  }
+
+  /**
+   * Returns whether {@code duration} has at least {@code minimumDuration} minutes.
+   */
+  private static boolean checkTimeRangeDuration(long duration, long minimumDuration) {
+    return (duration >= minimumDuration);
   }
 }
