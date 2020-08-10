@@ -428,17 +428,6 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void requestDurationTooLong() {
-    // Meeting request duration exceeds 24 hours.
-    MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), DURATION_60_MINUTES * 24 + 1);
-
-    Collection<TimeRange> actual = query.query(NO_EVENTS, request);
-    Collection<TimeRange> expected = Arrays.asList();
-
-    Assert.assertEquals(expected, actual);
-  }
-
-  @Test
   public void illegalEvents() {
     // Events have negative start and end.
 
