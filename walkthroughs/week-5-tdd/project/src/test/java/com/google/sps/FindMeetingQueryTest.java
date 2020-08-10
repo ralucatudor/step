@@ -428,23 +428,20 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void illegalEvents() {
-    // Events have negative start and end.
+  public void eventTimeRangeNotWithinADay() {
+    // Add an event which is not within the day
 
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartEnd(-30, -15, false),
-            Arrays.asList(PERSON_A)),
-        new Event("Event 2", TimeRange.fromStartEnd(-120, -60, false),
-            Arrays.asList(PERSON_A)),
-        new Event("Event 3", TimeRange.fromStartEnd(TIME_0830AM, TimeRange.END_OF_DAY, true),
-            Arrays.asList(PERSON_B)));
+            Arrays.asList(PERSON_A)));
 
-    MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B), DURATION_30_MINUTES);
+    MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), DURATION_30_MINUTES);
 
-    Collection<TimeRange> actual = query.query(events, request);
-    Collection<TimeRange> expected =
-        Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false));
-
-    Assert.assertEquals(expected, actual);
+    try {
+      Collection<TimeRange> actual = query.query(events, request);
+      Assert.fail("IllegalArgumentException not thrown");
+    } catch(IllegalArgumentException e) {
+      Assert.assertEquals("Time ranges can only be within a day.", e.getMessage());
+    }
   }
 }

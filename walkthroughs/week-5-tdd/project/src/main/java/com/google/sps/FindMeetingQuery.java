@@ -98,7 +98,11 @@ public final class FindMeetingQuery {
    * Returns whether the {@code timeRange} is within the day.
    */
   private static boolean checkIsWithinTheDay(TimeRange timeRange) {
-    return (timeRange.WHOLE_DAY.contains(timeRange));
+    if (timeRange.WHOLE_DAY.contains(timeRange)) {
+      return true;
+    } else {
+      throw new IllegalArgumentException("Time ranges can only be within a day.");
+    }
   }
 
   /**
@@ -120,11 +124,8 @@ public final class FindMeetingQuery {
     // Add two dummy time ranges {@code beforeStartOfDay} and {@code afterEndOfDay}. This way, there 
     // is no need to check outside the loop for empty time slot before the first occupied time range.
     // Same for checking after the last occupied time range.
-    TimeRange beforeStartOfDay = 
-          TimeRange.fromStartEnd(TimeRange.START_OF_DAY - 1, TimeRange.START_OF_DAY, false);
-    
-    TimeRange afterEndOfDay = 
-        TimeRange.fromStartEnd(TimeRange.END_OF_DAY + 1, TimeRange.END_OF_DAY + 2, false);
+    TimeRange beforeStartOfDay = TimeRange.fromStartDuration(TimeRange.START_OF_DAY, 0);
+    TimeRange afterEndOfDay = TimeRange.fromStartDuration(TimeRange.END_OF_DAY + 1, 0);
 
     occupiedTimeRanges.add(beforeStartOfDay);
     occupiedTimeRanges.add(afterEndOfDay);
